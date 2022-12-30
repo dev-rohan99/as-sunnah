@@ -18,13 +18,15 @@ const userDataSchema = mongoose.Schema({
     email : {
         type : String,
         unique : true,
-        trim : true
+        trim : true,
+        required : true
     },
 
     phone : {
         type : String,
         unique : true,
-        trim : true
+        trim : true,
+        required : true
     },
 
     username : {
@@ -35,7 +37,8 @@ const userDataSchema = mongoose.Schema({
 
     secondaryName : {
         type : String,
-        trim : true
+        trim : true,
+        default : ''
     },
 
     password : {
@@ -45,12 +48,24 @@ const userDataSchema = mongoose.Schema({
     },
 
     birthDate : {
-        type : String
+        type : String,
+        required : true
+    },
+
+    birthMonth : {
+        type : String,
+        required : true
+    },
+
+    birthYear : {
+        type : String,
+        required : true
     },
 
     gender : {
         type : String,
-        enum : ['Male', 'Female', 'Other']
+        enum : ['Male', 'Female', 'Other'],
+        required : true
     },
 
     avatar : {
@@ -130,6 +145,11 @@ const userDataSchema = mongoose.Schema({
         type : String,
         enum : ['user', 'admin'],
         default : 'user'
+    },
+
+    accessToken :{
+        type : String,
+        unique : true
     },
     
     joined : {

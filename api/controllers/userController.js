@@ -1,7 +1,12 @@
 import userModel from "../models/userModel.js";
 import bcrypt from "bcryptjs";
-import createError from "../utility/errorHandler.js";
-import jwt from "jsonwebtoken";
+import createError from "../utility/createError.js";
+import { isEmail } from "../utility/validate.js";
+import { genHashPassword, verifyPassword } from "../utility/hash.js";
+import { createToken, verifyToken } from "../utility/token.js";
+import cookie from "cookie-parser";
+import { sendActivationLink } from "../utility/sendMail.js";
+import { getRandomCode } from "../utility/math.js";
 
 
 /**
@@ -15,12 +20,65 @@ import jwt from "jsonwebtoken";
 export const register = async (req, res, next) => {
 
     try{
-        const users = await userModel.find();
-        res.status(200).json(users);
+
+        // get form data
+        const { firstName, surName, email, phone, username, password, birthDate, birthMonth, gender } = req.body;
+
+        // validation
+        if( !firstName || !surName || !phone || !email || !password || !birthDate || !birthMonth || !gender ){
+            next(createError(400, 'All fields are required!'));
+        }
+
+        if( !isEmail(email) ){
+            next(createError(400, 'Invalid email address!'))
+        }
+
+        const userEmail = await userModel.findOne({email : email});
+
+        if( userEmail ){
+            next(createError(400, 'This email already exists!'));
+        }
+
+        // create access token
+        let activationCode = getRandomCode(100000, 999999);
+
+        // check activation code
+        const checkActivationCode = await userModel.findOne({accessToken : activationCode});
+
+        if( checkActivationCode ){
+            activationCode = getRandomCode(100000, 999999);
+        }
+
+        // create user
+        const user = await userModel.create({
+            ...req.body,
+            password : genHashPassword(password),
+            accessToken : activationCode
+        });
+
+        if (!user) {
+            next(createError(404, 'User not created!'));
+        }
+
+        if(user){
+
+            const activationToken  = createToken({id : user._id}, '30d');
+
+            sendActivationLink(user.email, {
+                name : user.firstName + ' ' + user.surName,
+                link : `${process.env.APP_URI + ':' + process.env.SERVER_PORT}/api/v1/user/activate/${activationToken}`,
+                code : activationCode
+            });
+            
+            res.status(200).json({
+                message : "User created successfull!",
+                user : user
+            });
+
+        }
+
     }catch(err){
-
-        next(createError(err));
-
+        next(err);
     }
 
 }
@@ -37,14 +95,46 @@ export const login = async (req, res, next) => {
 
     try{
 
-    }catch(err){
+        const {email, password} = req.body;
+
+        if(!email || !password){
+            next(createError(400, 'All fields are required!'));
+        }
+
+        if(!isEmail){
+            next(400, 'Invalid email address!');
+        }
+
+        const loginUser = await userModel.findOne({email : email});
         
+        if(!loginUser){
+            next(createError(400, 'Login user not found!'));
+        }else{
+
+            if(!verifyPassword(password, loginUser.password)){
+                next(400, 'Password not matched!')
+            }else{
+
+                const token = createToken({id : loginUser._id}, '365d');
+                
+                res.status(200).cookie('authToken', token).json({
+                    message : "User login successfull!",
+                    user : loginUser,
+                    token : token
+                });
+
+            }
+
+        }
+
+    }catch(err){
+        next(err);
     }
 
 }
 
 /**
- * logged in user
+ * loggedin user
  * @param {*} req 
  * @route /api/v1/user/me
  * @param {*} res 
@@ -55,146 +145,118 @@ export const loggedInUser = async (req, res, next) => {
 
     try{
 
-    }catch(err){
+        
 
+    }catch(err){
+        next(err);
     }
 
 }
 
+/**
+ * account activate by sending email
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
 
-// /**
-//  * Single user data get
-//  * @param {*} req 
-//  * @param {*} res 
-//  */
+export const accountActivation = async (req, res, next) => {
+    
+    try{
 
-// export const getSingleUserData = async (req, res, next) => {
+        // get token
+        const { token } = req.params;
 
-//     let {id} = req.params;
+        if(!token){
+            next(createError(400, 'Invalid activation url!'))
+        }else{
 
-//     try{
-//         const user = await userModel.findById(id);
-//         res.status(200).json(user);
-//     }catch(err){
-        
-//         next(createError(err));
+            // token verify
+            const tokenData = verifyToken(token);
 
-//     }
+            // check token
+            if(!tokenData){
+                next(createError(400, 'Invalid token!'));
+            }
 
-// }
+            if(tokenData){
 
-// /**
-//  * Create user data
-//  * @param {*} req 
-//  * @param {*} res 
-//  */
+                const userAccount = await userModel.findById(tokenData.id);
 
-// export const createUserData = async (req, res, next) => {
+                if(userAccount.isActivate){
+                    next(createError(400, 'Account already activate!'))
+                }else{
+                    await userModel.findByIdAndUpdate(tokenData.id, {
+                        isActivate : true,
+                        accessToken : ""
+                    });
 
-//     // make password encrypt
-//     const salt = await bcrypt.genSalt(10);
-//     const encryptPassword = await bcrypt.hash(req.body.Password, salt);
-
-//     try{
-
-//         const createUser = await userModel.create({
-//             ...req.body,
-//             Password : encryptPassword
-//         });
-//         res.status(200).json(createUser);
-
-//     }catch(err){
-
-//         next(createError(err));
-
-//     }
-
-// }
-
-// /**
-//  * Update user data
-//  * @param {*} req 
-//  * @param {*} res 
-//  */
-
-// export const updateUserData = async (req, res, next) => {
-
-//     let {id} = req.params;
-
-//     try{
-//         const updateUser = await userModel.findByIdAndUpdate(id, req.body);
-//         res.status(200).json(updateUser);
-//     }catch(err){
-       
-//         next(createError(err));
-
-//     }
-
-// }
-
-// /**
-//  * Delete user data
-//  * @param {*} req 
-//  * @param {*} res 
-//  */
-
-// export const deleteUserData = async (req, res, next) => {
-
-//     let {id} = req.params;
-
-//     try{
-//         const deleteUser = await userModel.findByIdAndRemove(id);
-//         res.status(200).json(deleteUser);
-//     }catch(err){
-        
-//         next(createError(err));
-
-//     }
-
-// }
-
-
-// /**
-//  * Login user
-//  * @param {*} req 
-//  * @param {*} res 
-//  */
-
-//  export const loginUser = async (req, res, next) => {
-
-//     const { Username, Email, Password } = req.body;
-
-//     try{
-
-//         const loginUser = await userModel.findOne({ Username : req.body.Username });
-
-//         if( !loginUser ){
-//             next(createError('404', 'User not found!'));
-//         }else{
-
-//             const checkPassword = await bcrypt.compare(req.body.Password, loginUser.Password);
-
-//             if( !checkPassword ){
-//                 next(createError('404', 'Wrong password! Try again.'));
-//             }else{
-
-//                 const token = jwt.sign({ id : loginUser._id, Role : loginUser.Role }, process.env.JWT_SECRECT);
-
-//                 res.cookie('TokenAccess', token).status(200).json({
-//                     Status : true,
-//                     User : loginUser,
-//                     Token : token
-//                 });
+                    res.status(200).json({
+                        message : "Account activated successfull!"
+                    })
+                }
                 
-//             }
+            }
 
-//         }
+        }
 
-//     }catch(err){
+    }catch(err){
+        next(err);
+    }
 
-//         next(createError(err));
+}
 
-//     }
+/**
+ * account activate by code
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
 
-// }
+export const accountActivateByCode = async (req, res, next) => {
 
+    try{
+
+        const { code } = req.body;
+        // const user = await userModel.findOne({accessToken : code, isActivate : false});
+        const user = await userModel.findOne().and([{accessToken : code}, {isActivate : false}]);
+
+        if(!user){
+            next(createError(400, 'Activation user not found!'));
+        }else{
+
+            await userModel.findByIdAndUpdate(user.id, {
+                isActivate : true,
+                accessToken : ""
+            });
+
+            res.status(200).json({
+                message : "Account acctivated successfull!"
+            });
+
+        }
+
+    }catch(err){
+        next(err);
+    }
+
+}
+
+/**
+ * forgot password
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+
+export const forgotPassword = async (req, res, next) => {
+
+    try{
+
+
+
+    }catch(err){
+        next(err);
+    }
+
+}

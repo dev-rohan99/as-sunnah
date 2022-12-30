@@ -21,7 +21,7 @@ app.use(cookieParser());
 mongoDBConnect();
 
 // routes implement
-app.use('/api/v1/users', userRouter);
+app.use('/api/v1/user', userRouter);
 
 // error handler
 app.use(errorHandler);
