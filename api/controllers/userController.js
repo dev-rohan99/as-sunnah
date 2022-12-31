@@ -5,7 +5,7 @@ import { isEmail } from "../utility/validate.js";
 import { genHashPassword, verifyPassword } from "../utility/hash.js";
 import { createToken, verifyToken } from "../utility/token.js";
 import cookie from "cookie-parser";
-import { sendActivationLink } from "../utility/sendMail.js";
+import { resetPasswordLink, sendActivationLink } from "../utility/sendMail.js";
 import { getRandomCode } from "../utility/math.js";
 
 
@@ -145,7 +145,33 @@ export const loggedInUser = async (req, res, next) => {
 
     try{
 
-        
+        const authToken = req.headers.authorization;
+
+        if(!authToken){
+            next(createError(400, "Token not found!"));
+        }
+
+        if(authToken){
+            const token = authToken.split(' ')[1]
+            const user = verifyToken(token);
+
+            if(!user){
+                next(createError(400, "Invalid token!"));
+            }
+
+            if(user){
+                const looggedinUser = await userModel.findById(user.id);
+
+                if(!loggedInUser){
+                    next(createError(400, "User not match!"));
+                }else{
+                    res.status(200).json({
+                        message : "User data stable!",
+                        user : looggedinUser
+                    });
+                }
+            }
+        }
 
     }catch(err){
         next(err);
@@ -253,7 +279,94 @@ export const forgotPassword = async (req, res, next) => {
 
     try{
 
+        const { email } = req.body;
+        const user = await userModel.findOne({email : email});
 
+        if(!email){
+            next(createError(400, "User not found!"));
+        }
+
+        if(email){
+
+            const passwordResetToken  = createToken({id : user._id}, '30m');
+
+            // create access token
+            let activationCode = getRandomCode(100000, 999999);
+
+            // check activation code
+            const checkActivationCode = await userModel.findOne({accessToken : activationCode});
+
+            if( checkActivationCode ){
+                activationCode = getRandomCode(100000, 999999);
+            }
+
+            resetPasswordLink(user.email, {
+                name : user.firstName + ' ' + user.surName,
+                link : `${process.env.APP_URI + ':' + process.env.SERVER_PORT}/api/v1/user/forgot-password/${passwordResetToken}`,
+                code : activationCode
+            });
+            
+            res.status(200).json({
+                message : "Password reset link has sent to your email account!"
+            });
+
+        }
+
+    }catch(err){
+        next(err);
+    }
+
+}
+
+/**
+ * password reset by code
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+
+export const passwordResetAction = async (req, res, next) => {
+
+    try{
+
+        // get token
+        const { token } = req.params;
+        const { password } = req.body;
+
+        if(!token){
+            next(createError(400, 'Invalid activation url!'))
+        }else{
+
+            // token verify
+            const tokenData = verifyToken(token);
+
+            // check token
+            if(!tokenData){
+                next(createError(400, 'Invalid token!'));
+            }
+
+            if(tokenData){
+
+                const userAccount = await userModel.findById(tokenData.id);
+
+                if( !userAccount ){
+                    next(createError(400, "Invalid user!"))
+                }
+
+                if( userAccount ){
+                    await userModel.findByIdAndUpdate(userAccount._id, {
+                        password : genHashPassword(password),
+                        accessToken : ""
+                    });
+
+                    res.status(200).json({
+                        message : "Password reset successfull!"
+                    });
+                }
+                
+            }
+
+        }
 
     }catch(err){
         next(err);

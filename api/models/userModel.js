@@ -148,8 +148,7 @@ const userDataSchema = mongoose.Schema({
     },
 
     accessToken :{
-        type : String,
-        unique : true
+        type : String
     },
     
     joined : {
