@@ -7,7 +7,53 @@
   margin: 0px;
 }
 
+body{
+  font-family: SFProDisplay-Regular, Helvetica, Arial, sans-serif;
+}
 
+@layer components{
+
+  .container{
+    @apply w-[990px] mx-auto
+  } 
+
+  .iconMenuRight{
+    @apply w-[40px] h-[40px] flex items-center justify-center bg-[#e7e7e7] hover:bg-[#D8DADF] rounded-full
+  }
+
+  .iconMenuMiddle{
+    @apply w-[111px] h-[55px] relative flex justify-center items-center hover:bg-[#e7e7e7] rounded-md text-[#616161]
+  }
+
+  .iconMenuMiddle.active{
+    @apply relative after:content-[""] after:absolute after:left-0 after:bottom-[-5px] after:h-[5px] after:w-[100%] after:rounded-[3px] after:bg-[#D82E38]
+  }
+
+  .iconMenuleftList{
+    @apply flex p-2 items-center justify-start hover:bg-[#E4E6E8] rounded-l-md
+  }
+
+  .listText{
+    @apply font-[600] ml-4 text-[#383838]
+  }
+
+  .listIcon{
+    @apply h-[35px] w-[35px] text-[#54CBBB]
+  }
+
+  .listIcon2{
+    @apply h-[35px] w-[35px] text-[#E25A29]
+  }
+
+  .contactIcon{
+    @apply rounded-full h-[30px] w-[30px] hover:bg-[#cecece] flex items-center justify-center text-[#383838]
+  }
+
+  .storyWrapper{
+    @apply w-[110px] h-[190px] bg-[#ffffff] items-center rounded-lg overflow-hidden relative shadow-md mr-2 last:mr-0 hover:scale-105 transition duration-200 transform hover:animate-pulse ease-in cursor-pointer
+  }
+
+}
 
 
 

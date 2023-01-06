@@ -3,6 +3,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import multer from 'multer';
 import colors from 'colors';
+import cors from "cors";
 import cookieParser from 'cookie-parser';
 import mongoDBConnect from './config/db.js';
 import userRouter from './routes/userRouter.js';
@@ -15,6 +16,7 @@ dotenv.config();
 // middlewares implement
 app.use(express.json());
 app.use(express.urlencoded({ extended : false }));
+app.use(cors());
 app.use(cookieParser());
 
 // mongoDB Connection

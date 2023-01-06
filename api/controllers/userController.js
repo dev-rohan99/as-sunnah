@@ -25,7 +25,7 @@ export const register = async (req, res, next) => {
         const { firstName, surName, email, phone, username, password, birthDate, birthMonth, gender } = req.body;
 
         // validation
-        if( !firstName || !surName || !phone || !email || !password || !birthDate || !birthMonth || !gender ){
+        if( !firstName || !surName || !password || !birthDate || !birthMonth || !gender ){
             next(createError(400, 'All fields are required!'));
         }
 
@@ -49,31 +49,37 @@ export const register = async (req, res, next) => {
             activationCode = getRandomCode(100000, 999999);
         }
 
-        // create user
-        const user = await userModel.create({
-            ...req.body,
-            password : genHashPassword(password),
-            accessToken : activationCode
-        });
+        if( email || phone ){
 
-        if (!user) {
-            next(createError(404, 'User not created!'));
-        }
-
-        if(user){
-
-            const activationToken  = createToken({id : user._id}, '30d');
-
-            sendActivationLink(user.email, {
-                name : user.firstName + ' ' + user.surName,
-                link : `${process.env.APP_URI + ':' + process.env.SERVER_PORT}/api/v1/user/activate/${activationToken}`,
-                code : activationCode
+            // create user
+            const user = await userModel.create({
+                ...req.body,
+                password : genHashPassword(password),
+                accessToken : activationCode
             });
-            
-            res.status(200).json({
-                message : "User created successfull!",
-                user : user
-            });
+
+            if (!user) {
+                next(createError(404, 'User not created!'));
+            }
+    
+            if(user){
+    
+                const activationToken  = createToken({id : user._id}, '30d');
+    
+                sendActivationLink(user.email, {
+                    name : user.firstName + ' ' + user.surName,
+                    link : `${process.env.APP_URI + ':' + process.env.SERVER_PORT}/api/v1/user/activate/${activationToken}`,
+                    code : activationCode
+                });
+                
+                res.status(200).cookie('otp', user.email, {
+                    expires : new Date(Date.now() + 1000 * 60 * 60 * 72)
+                }).json({
+                    message : "User created successfull!",
+                    user : user
+                });
+    
+            }
 
         }
 

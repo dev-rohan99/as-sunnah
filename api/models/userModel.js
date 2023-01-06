@@ -18,15 +18,13 @@ const userDataSchema = mongoose.Schema({
     email : {
         type : String,
         unique : true,
-        trim : true,
-        required : true
+        trim : true
     },
 
     phone : {
         type : String,
         unique : true,
-        trim : true,
-        required : true
+        trim : true
     },
 
     username : {
@@ -64,7 +62,7 @@ const userDataSchema = mongoose.Schema({
 
     gender : {
         type : String,
-        enum : ['Male', 'Female', 'Other'],
+        enum : ['male', 'female', 'other'],
         required : true
     },
 
