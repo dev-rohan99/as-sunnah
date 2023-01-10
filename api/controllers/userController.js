@@ -1,7 +1,7 @@
 import userModel from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import createError from "../utility/createError.js";
-import { isEmail } from "../utility/validate.js";
+import { isEmail, isPhone } from "../utility/validate.js";
 import { genHashPassword, verifyPassword } from "../utility/hash.js";
 import { createToken, verifyToken } from "../utility/token.js";
 import cookie from "cookie-parser";
@@ -22,21 +22,36 @@ export const register = async (req, res, next) => {
     try{
 
         // get form data
-        const { firstName, surName, email, phone, username, password, birthDate, birthMonth, gender } = req.body;
+        const { firstName, surName, phoneOrEmail, username, password, birthDate, birthMonth, gender } = req.body;
 
         // validation
         if( !firstName || !surName || !password || !birthDate || !birthMonth || !gender ){
             next(createError(400, 'All fields are required!'));
         }
 
-        if( !isEmail(email) ){
-            next(createError(400, 'Invalid email address!'))
-        }
+        let emailData = null;
+        let phoneData = null;
 
-        const userEmail = await userModel.findOne({email : email});
+        if( isEmail(phoneOrEmail) ){
 
-        if( userEmail ){
-            next(createError(400, 'This email already exists!'));
+            const userEmail = await userModel.findOne({email : phoneOrEmail});
+            if( userEmail ){
+                return next(createError(400, 'This email already exists!'));
+            }else{
+                emailData = phoneOrEmail;
+            }
+            
+        }else if( isPhone(phoneOrEmail) ){
+
+            const userPhone = await userModel.findOne({phone : phoneOrEmail});
+            if( userPhone ){
+                return next(createError(400, 'This phone number already exists!'));
+            }else{
+                phoneData = phoneOrEmail;
+            }
+            
+        }else{
+            return next(createError(400, 'Invalid email or phone address!'));
         }
 
         // create access token
@@ -49,39 +64,38 @@ export const register = async (req, res, next) => {
             activationCode = getRandomCode(100000, 999999);
         }
 
-        if( email || phone ){
+        // create user
+        const user = await userModel.create({
+            ...req.body,
+            email : emailData,
+            phone : phoneData,
+            password : genHashPassword(password),
+            accessToken : activationCode
+        });
 
-            // create user
-            const user = await userModel.create({
-                ...req.body,
-                password : genHashPassword(password),
-                accessToken : activationCode
+        if (!user) {
+            next(createError(404, 'User not created!'));
+        }
+
+        if(user){
+
+            const activationToken  = createToken({id : user._id}, '30d');
+
+            sendActivationLink(user.email, {
+                name : user.firstName + ' ' + user.surName,
+                link : `${process.env.APP_URI + ':' + process.env.SERVER_PORT}/api/v1/user/activate/${activationToken}`,
+                code : activationCode
+            });
+            
+            res.status(200).cookie('otp', user.email, {
+                expires : new Date(Date.now() + 1000 * 60 * 60 * 72)
+            }).json({
+                message : "User created successfull!",
+                user : user
             });
 
-            if (!user) {
-                next(createError(404, 'User not created!'));
-            }
-    
-            if(user){
-    
-                const activationToken  = createToken({id : user._id}, '30d');
-    
-                sendActivationLink(user.email, {
-                    name : user.firstName + ' ' + user.surName,
-                    link : `${process.env.APP_URI + ':' + process.env.SERVER_PORT}/api/v1/user/activate/${activationToken}`,
-                    code : activationCode
-                });
-                
-                res.status(200).cookie('otp', user.email, {
-                    expires : new Date(Date.now() + 1000 * 60 * 60 * 72)
-                }).json({
-                    message : "User created successfull!",
-                    user : user
-                });
-    
-            }
-
         }
+
 
     }catch(err){
         next(err);
@@ -257,14 +271,24 @@ export const accountActivateByCode = async (req, res, next) => {
             next(createError(400, 'Activation user not found!'));
         }else{
 
-            await userModel.findByIdAndUpdate(user.id, {
-                isActivate : true,
-                accessToken : ""
-            });
+            if(isActivate == true){
+                next(createError(400, 'Account already activated!'));
+            }else{
 
-            res.status(200).json({
-                message : "Account acctivated successfull!"
-            });
+                if(user.accessToken !== code){
+                    next(createError(400, 'OTP code not matched!'));
+                }else{
+                    await userModel.findByIdAndUpdate(user.id, {
+                        isActivate : true,
+                        accessToken : ""
+                    });
+        
+                    res.status(200).json({
+                        message : "Account acctivated successfull!"
+                    });
+                }
+
+            }
 
         }
 
@@ -371,6 +395,57 @@ export const passwordResetAction = async (req, res, next) => {
                 }
                 
             }
+
+        }
+
+    }catch(err){
+        next(err);
+    }
+
+}
+
+
+export const resendAccountActivationLink = async (req, res, next) => {
+
+    try{
+
+        const { email } = req.body;
+
+        const userEmail = await userModel.findOne({email : email}).and([{isActivate : false}]);
+
+        if(!userEmail){
+            next(createError(400, "Invalid link request!"))
+        }
+
+        // create access token
+        let activationCode = getRandomCode(100000, 999999);
+
+        // check activation code
+        const checkActivationCode = await userModel.findOne({accessToken : activationCode});
+
+        if( checkActivationCode ){
+            activationCode = getRandomCode(100000, 999999);
+        }
+
+        if(userEmail){
+
+            const activationToken  = createToken({id : userEmail._id}, '30d');
+    
+            sendActivationLink(userEmail.email, {
+                name : userEmail.firstName + ' ' + userEmail.surName,
+                link : `${process.env.APP_URI + ':' + process.env.SERVER_PORT}/api/v1/user/activate/${activationToken}`,
+                code : activationCode
+            });
+
+            await userModel.findByIdAndUpdate(userEmail._id, {
+                accessToken : activationCode
+            });
+            
+            res.status(200).cookie('otp', user.email, {
+                expires : new Date(Date.now() + 1000 * 60 * 60 * 72)
+            }).json({
+                message : "User activation link send to your account! Check your email."
+            });
 
         }
 

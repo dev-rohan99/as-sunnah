@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import createToast from '../../utility/toast.js';
-import userRegister from '../../redux/auth/action.js';
+import { userRegister } from '../../redux/auth/action.js';
 
 const Register = ({setRegister}) => {
 
@@ -14,7 +14,7 @@ const Register = ({setRegister}) => {
   const [input, setInput] = useState({
     fname : "",
     sname : "",
-    emailorphone : "",
+    phoneOrEmail : "",
     password : "",
     day : "",
     month : "",
@@ -25,7 +25,7 @@ const Register = ({setRegister}) => {
   const [validate, setValidate] = useState({
     fname : false,
     sname : false,
-    emailorphone : false,
+    phoneOrEmail : false,
     password : false
   });
 
@@ -69,14 +69,14 @@ const Register = ({setRegister}) => {
 
     event.preventDefault();
 
-    if(!input.fname || !input.sname || !input.emailorphone || !input.password || !input.day || !input.month || !input.year || !input.gender){
+    if(!input.fname || !input.sname || !input.phoneOrEmail || !input.password || !input.day || !input.month || !input.year || !input.gender){
       createToast("All fields are required!", "warn")
     }else{
 
       dispatch(userRegister({
         firstName : input.fname,
         surName : input.sname,
-        email : input.emailorphone,
+        phoneOrEmail : input.phoneOrEmail,
         password : input.password,
         birthDate : input.day,
         birthMonth : input.month,
@@ -125,9 +125,9 @@ const Register = ({setRegister}) => {
                 </div>
 
                 <div className="mt-3 relative w-[100%]">
-                  <input name="emailorphone" type="text" placeholder="Mobile number or e-mail address" className="w-[100%] p-[0.6rem] outline-none border-[1px] rounded-md border-[#DDDFE2] focus:border-[1px] focus:border-[#D82E38]" value={input.emailorphone} onBlur={handleInputValidate} onChange={handleInputChange} />
+                  <input name="phoneOrEmail" type="text" placeholder="Mobile number or e-mail address" className="w-[100%] p-[0.6rem] outline-none border-[1px] rounded-md border-[#DDDFE2] focus:border-[1px] focus:border-[#D82E38]" value={input.phoneOrEmail} onBlur={handleInputValidate} onChange={handleInputChange} />
 
-                  {validate.emailorphone && <RiErrorWarningFill className="w-[20px] h-[20px] absolute right-3 top-3 text-[#D82E38]"/>}
+                  {validate.phoneOrEmail && <RiErrorWarningFill className="w-[20px] h-[20px] absolute right-3 top-3 text-[#D82E38]"/>}
                 </div>
 
                 <div className="mt-3 relative w-[100%]">

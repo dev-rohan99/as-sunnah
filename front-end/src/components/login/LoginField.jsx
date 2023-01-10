@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Register from "../register/Register";
 
 const LoginField = () => {
@@ -17,7 +18,7 @@ const LoginField = () => {
             <button type="submit" className="p-2 outline-none w-[100%] text-[22px] text-[#ffffff] font-bold  bg-[#D82E38] hover:bg-[#e72c39] rounded-md">Log in</button>
 
             <div className="text-center border-b-[2px] border-[#DDDFE2]">
-              <a href="#" className="text-[14px] text-[#D82E38] mt-4 mb-4 block hover:underline">Forgotten password?</a>
+              <Link to={'/find-account'} className="text-[14px] text-[#D82E38] mt-4 mb-4 block hover:underline">Forgotten password?</Link>
             </div>
 
             <div className="text-center">

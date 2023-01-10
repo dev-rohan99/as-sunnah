@@ -1,10 +1,15 @@
 import React from 'react';
 import Cookie from "js-cookie";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { useDispatch } from "react-redux";
+import createToast from '../../utility/toast';
+import { userVerifyByCode } from '../../redux/auth/action';
 
 const Activation = () => {
+
+    const dispatch = useDispatch();
 
     const navigate = useNavigate();
     const [code, setCode] = useState("");
@@ -16,6 +21,21 @@ const Activation = () => {
     const handleVerifyCancel = () => {
         Cookie.remove("otp");
         navigate('/login');
+    }
+
+    const handleVerifyContinue = (event) => {
+        if(!code){
+            createToast("Set the OTP code!", "warn");
+        }else{
+            dispatch(userVerifyByCode({
+                code : code,
+                email : Cookie.remove("otp")
+            }, navigate));
+        }
+    }
+
+    const handleResendActivation = (event) => {
+        event.preventDefault();
     }
 
     const activationEmail = Cookie.get("otp");
@@ -41,11 +61,11 @@ const Activation = () => {
                         </div>
 
                         <div className="flex justify-between items-center mt-7">
-                            <a className="hover:underline hover:decoration-solid text-[#D82E38]" href="/">Didn't get the code?</a>
+                            <a onClick={handleResendActivation} className="hover:underline hover:decoration-solid text-[#D82E38]" href="/">Didn't get the code?</a>
 
                             <div className="">
-                                <button onClick={handleVerifyCancel} className="bg-[#d1d1d1] text-[16px] font-semibold text-[#1b1b1b] rounded-md py-2 px-4 active:bg-[#e0e0e0]">Cancel</button>
-                                <button className="bg-[#D82E38] text-[16px] font-semibold ml-3 text-[#ffffff] rounded-md py-2 px-4 active:bg-[#ff6e78]">Continue</button>
+                                <Link to={'/login'} onClick={handleVerifyCancel} className="bg-[#d1d1d1] text-[16px] font-semibold text-[#1b1b1b] rounded-md py-2 px-4 active:bg-[#e0e0e0]">Cancel</Link>
+                                <button onClick={handleVerifyContinue} className="bg-[#D82E38] text-[16px] font-semibold ml-3 text-[#ffffff] rounded-md py-2 px-4 active:bg-[#ff6e78]">Continue</button>
                             </div>
                         </div>
                     </div>
