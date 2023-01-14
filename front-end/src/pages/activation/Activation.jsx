@@ -1,5 +1,5 @@
 import React from 'react';
-import Cookie from "js-cookie";
+import Cookies from "js-cookie";
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -19,7 +19,7 @@ const Activation = () => {
     }
 
     const handleVerifyCancel = () => {
-        Cookie.remove("otp");
+        Cookies.remove("otp");
         navigate('/login');
     }
 
@@ -29,7 +29,7 @@ const Activation = () => {
         }else{
             dispatch(userVerifyByCode({
                 code : code,
-                email : Cookie.remove("otp")
+                email : Cookies.remove("otp")
             }, navigate));
         }
     }
@@ -38,7 +38,7 @@ const Activation = () => {
         event.preventDefault();
     }
 
-    const activationEmail = Cookie.get("otp");
+    const activationEmail = Cookies.get("otp");
 
     useEffect(() => {
         if(!activationEmail){

@@ -1,5 +1,5 @@
 import express from 'express';
-import { loggedInUser, login, register, accountActivation, accountActivateByCode, forgotPassword, passwordResetAction, resendAccountActivationLink } from '../controllers/userController.js';
+import { loggedInUser, login, register, accountActivation, accountActivateByCode, forgotPassword, passwordResetAction, resendAccountActivationLink, findUserAccount } from '../controllers/userController.js';
 import { userAuthMiddleware } from '../middlewares/userAuthMiddleware.js';
 const router = express.Router();
 
@@ -16,6 +16,8 @@ router.get('/activate/:token', accountActivation);
 router.post('/code-activate', accountActivateByCode);
 // user account activation resend
 router.post('/code-activate', resendAccountActivationLink);
+// find user account
+router.post('/find-user-account', findUserAccount);
 // user forgot password
 router.post('/forgot-password', forgotPassword);
 // user password reset action

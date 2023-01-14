@@ -4,7 +4,6 @@ import createError from "../utility/createError.js";
 import { isEmail, isPhone } from "../utility/validate.js";
 import { genHashPassword, verifyPassword } from "../utility/hash.js";
 import { createToken, verifyToken } from "../utility/token.js";
-import cookie from "cookie-parser";
 import { resetPasswordLink, sendActivationLink } from "../utility/sendMail.js";
 import { getRandomCode } from "../utility/math.js";
 
@@ -18,7 +17,7 @@ import { getRandomCode } from "../utility/math.js";
  */
 
 export const register = async (req, res, next) => {
-
+    
     try{
 
         // get form data
@@ -299,6 +298,75 @@ export const accountActivateByCode = async (req, res, next) => {
 }
 
 /**
+ * find user account
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
+
+export const findUserAccount = async (req, res, next) => {
+
+    try{
+
+        const { phoneOrEmail } = req.body;
+
+        let emailData = null;
+        let phoneData = null;
+
+        if(isEmail(phoneOrEmail)){
+
+            const emailUser = await userModel.findOne({email : phoneOrEmail})
+            if(!emailUser){
+                return next(createError(400, "Email user not found!"));
+            }else{
+
+                return res.status(200).cookie(
+                    'findUser', 
+                    JSON.stringify({
+                        name : emailUser.firstName + ' ' + emailUser.surName,
+                        email : emailUser.email,
+                        photo : emailUser.photo
+                    }), 
+                    {expires : new Date(Date.now() + 1000 * 60 * 60 * 72)}
+                ).json({
+                    user : emailUser
+                });
+
+            }
+
+        }else if(isPhone(phoneOrEmail)){
+
+            const phoneUser = await userModel.findOne({phone : phoneOrEmail})
+            if(!phoneUser){
+                return next(createError(400, "Phone user not found!"));
+            }else{
+
+                return res.status(200).cookie(
+                    'findUser', 
+                    JSON.stringify({
+                        name : phoneUser.firstName + ' ' + phoneUser.surName,
+                        phone : phoneUser.phone,
+                        photo : phoneUser.photo
+                    }), 
+                    {expires : new Date(Date.now() + 1000 * 60 * 60 * 72)}
+                ).json({
+                    user : phoneUser
+                });
+
+            }
+
+        }else{
+            return next(createError(400, "User not found!"));
+        }
+
+    }catch(err){
+        next(err);
+    }
+
+}
+
+/**
  * forgot password
  * @param {*} req 
  * @param {*} res 
@@ -404,6 +472,12 @@ export const passwordResetAction = async (req, res, next) => {
 
 }
 
+/**
+ * resend accound activation link
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
 
 export const resendAccountActivationLink = async (req, res, next) => {
 
@@ -454,3 +528,7 @@ export const resendAccountActivationLink = async (req, res, next) => {
     }
 
 }
+
+
+
+
