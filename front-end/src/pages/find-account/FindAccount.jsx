@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import HeaderTwo from "../../components/header-two/HeaderTwo";
 import createToast from "../../utility/toast";
-import Cookies from "js-cookie";
 
 const FindAccount = () => {
 
@@ -22,7 +21,7 @@ const FindAccount = () => {
             createToast("Field is required!", "warn");
         }else{
 
-            axios.post('http://localhost:8080/api/v1/user/find-user-account', {
+            axios.post('/api/v1/user/find-user-account', {
                 phoneOrEmail,
             }).then((res) => {
                 createToast("Founded!", "success");
@@ -35,6 +34,8 @@ const FindAccount = () => {
         }
 
     }
+
+    
 
   return (
     <div>

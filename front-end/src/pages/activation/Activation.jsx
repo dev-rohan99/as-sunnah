@@ -1,14 +1,15 @@
 import React from 'react';
 import Cookies from "js-cookie";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch } from "react-redux";
 import createToast from '../../utility/toast';
-import { userVerifyByCode } from '../../redux/auth/action';
+import { checkPasswordResetOTPAction, resendActivation, userVerifyByCode } from '../../redux/auth/action.js';
 
 const Activation = () => {
 
+    const { type } = useParams();
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
@@ -24,21 +25,39 @@ const Activation = () => {
     }
 
     const handleVerifyContinue = (event) => {
+        event.preventDefault();
         if(!code){
             createToast("Set the OTP code!", "warn");
         }else{
             dispatch(userVerifyByCode({
                 code : code,
-                email : Cookies.remove("otp")
+                email : Cookies.get("otp")
             }, navigate));
         }
     }
 
-    const handleResendActivation = (event) => {
+    const handlePasswordReset = (event) => {
+
         event.preventDefault();
+        if(!code){
+            createToast("Set the OTP code!", "warn");
+        }else{
+            dispatch(checkPasswordResetOTPAction({
+                phoneOrEmail : Cookies.get("otp"),
+                code : code
+            }, navigate));
+        }
+
     }
 
     const activationEmail = Cookies.get("otp");
+
+    const handleResendActivation = async (event) => {
+
+        event.preventDefault();
+        dispatch(resendActivation(activationEmail, navigate));
+
+    }
 
     useEffect(() => {
         if(!activationEmail){
@@ -57,7 +76,7 @@ const Activation = () => {
                         <p className="text-[17px] font-normal mb-3">Please check your email for a message with your code. Your code is 6 numbers long</p>
                         <div className="flex justify-between items-center">
                             <label className="text-[17px] font-semibold" htmlFor="verify">Enter verification code : </label>
-                            <input value={code} onChange={handleInputChange} id="verify" type="number" className="w-[290px] p-3 outline-none border-[3px] border-[#d1d1d1] rounded-lg font-semibold text-[19px] tracking-[10px]" />
+                            <input value={code} onChange={handleInputChange} id="verify" type="number" name="code" className="w-[290px] p-3 outline-none border-[3px] border-[#d1d1d1] rounded-lg font-semibold text-[19px] tracking-[10px]" />
                         </div>
 
                         <div className="flex justify-between items-center mt-7">
@@ -65,7 +84,7 @@ const Activation = () => {
 
                             <div className="">
                                 <Link to={'/login'} onClick={handleVerifyCancel} className="bg-[#d1d1d1] text-[16px] font-semibold text-[#1b1b1b] rounded-md py-2 px-4 active:bg-[#e0e0e0]">Cancel</Link>
-                                <button onClick={handleVerifyContinue} className="bg-[#D82E38] text-[16px] font-semibold ml-3 text-[#ffffff] rounded-md py-2 px-4 active:bg-[#ff6e78]">Continue</button>
+                                <a href='/' onClick={ type === "account-activation" ? handleVerifyContinue : handlePasswordReset } className="bg-[#D82E38] text-[16px] font-semibold ml-3 text-[#ffffff] rounded-md py-2 px-4 active:bg-[#ff6e78]">Continue</a>
                             </div>
                         </div>
                     </div>

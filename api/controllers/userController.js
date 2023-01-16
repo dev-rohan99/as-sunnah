@@ -6,6 +6,7 @@ import { genHashPassword, verifyPassword } from "../utility/hash.js";
 import { createToken, verifyToken } from "../utility/token.js";
 import { resetPasswordLink, sendActivationLink } from "../utility/sendMail.js";
 import { getRandomCode } from "../utility/math.js";
+import { sendSms } from "../utility/sendSms.js";
 
 
 /**
@@ -270,7 +271,7 @@ export const accountActivateByCode = async (req, res, next) => {
             next(createError(400, 'Activation user not found!'));
         }else{
 
-            if(isActivate == true){
+            if(user.isActivate == true){
                 next(createError(400, 'Account already activated!'));
             }else{
 
@@ -326,7 +327,7 @@ export const findUserAccount = async (req, res, next) => {
                     JSON.stringify({
                         name : emailUser.firstName + ' ' + emailUser.surName,
                         email : emailUser.email,
-                        photo : emailUser.photo
+                        avatar : emailUser.avatar
                     }), 
                     {expires : new Date(Date.now() + 1000 * 60 * 60 * 72)}
                 ).json({
@@ -347,7 +348,7 @@ export const findUserAccount = async (req, res, next) => {
                     JSON.stringify({
                         name : phoneUser.firstName + ' ' + phoneUser.surName,
                         phone : phoneUser.phone,
-                        photo : phoneUser.photo
+                        avatar : phoneUser.avatar
                     }), 
                     {expires : new Date(Date.now() + 1000 * 60 * 60 * 72)}
                 ).json({
@@ -479,48 +480,268 @@ export const passwordResetAction = async (req, res, next) => {
  * @param {*} next 
  */
 
-export const resendAccountActivationLink = async (req, res, next) => {
+export const resendAccountActivation = async (req, res, next) => {
 
     try{
 
-        const { email } = req.body;
+        const { emailOrPhone } = req.body;
 
-        const userEmail = await userModel.findOne({email : email}).and([{isActivate : false}]);
+        if(isEmail(emailOrPhone)){
 
-        if(!userEmail){
-            next(createError(400, "Invalid link request!"))
-        }
+            const userEmail = await userModel.findOne({email : emailOrPhone});
+            console.log(userEmail);
 
-        // create access token
-        let activationCode = getRandomCode(100000, 999999);
+            if(!userEmail){
+                next(createError(400, "User not found!"));
+            }
 
-        // check activation code
-        const checkActivationCode = await userModel.findOne({accessToken : activationCode});
-
-        if( checkActivationCode ){
-            activationCode = getRandomCode(100000, 999999);
-        }
-
-        if(userEmail){
-
-            const activationToken  = createToken({id : userEmail._id}, '30d');
+            if(userEmail.isActivate){
+                next(createError(400, "Account already activated!"))
+            }
     
-            sendActivationLink(userEmail.email, {
-                name : userEmail.firstName + ' ' + userEmail.surName,
-                link : `${process.env.APP_URI + ':' + process.env.SERVER_PORT}/api/v1/user/activate/${activationToken}`,
-                code : activationCode
-            });
+            // create access token
+            let activationCode = getRandomCode(100000, 999999);
+    
+            // check activation code
+            const checkActivationCode = await userModel.findOne({accessToken : activationCode});
+    
+            if( checkActivationCode ){
+                activationCode = getRandomCode(100000, 999999);
+            }
+    
+            if(userEmail){
+    
+                const activationToken  = createToken({id : userEmail._id}, '30d');
+        
+                sendActivationLink(userEmail.email, {
+                    name : userEmail.firstName + ' ' + userEmail.surName,
+                    link : `${process.env.APP_URI + ':' + process.env.SERVER_PORT}/api/v1/user/activate/${activationToken}`,
+                    code : activationCode
+                });
+    
+                await userModel.findByIdAndUpdate(userEmail._id, {
+                    accessToken : activationCode
+                });
+                
+                res.status(200).cookie('otp', userEmail.email, {
+                    expires : new Date(Date.now() + 1000 * 60 * 60 * 72)
+                }).json({
+                    message : "User activation link send to your account! Check your email."
+                });
+    
+            }
 
-            await userModel.findByIdAndUpdate(userEmail._id, {
-                accessToken : activationCode
-            });
+        }else if(isPhone(emailOrPhone)){
+
+            const userPhone = await userModel.findOne({phone : emailOrPhone});
+
+            if(!userPhone){
+                next(createError(400, "User not found!"))
+            }
+
+            if(userPhone.isActivate){
+                next(createError(400, "Account already activated!"))
+            }
+    
+            // create access token
+            let activationCode = getRandomCode(100000, 999999);
+    
+            // check activation code
+            const checkActivationCode = await userModel.findOne({accessToken : activationCode});
+    
+            if( checkActivationCode ){
+                activationCode = getRandomCode(100000, 999999);
+            }
+    
+            if(userPhone){
+        
+                sendSms(userPhone.phone, `Your OTP code is ${activationCode}`);
+    
+                await userModel.findByIdAndUpdate(userPhone._id, {
+                    accessToken : activationCode
+                });
+                
+                res.status(200).cookie('otp', userPhone.phone, {
+                    expires : new Date(Date.now() + 1000 * 60 * 60 * 72)
+                }).json({
+                    message : "User activation OTP send to your phone number! Check your message!"
+                });
+    
+            }
+
+        }else{
+            next(createError(400, "Invalid phone or email address!"));
+        }
+
+    }catch(err){
+        next(err);
+    }
+
+}
+
+/**
+ * send user identification otp
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+
+export const sendUserIdentificationOTP = async (req, res, next) => {
+
+    try{
+
+        const { emailOrPhone } = req.body;
+
+        if(isEmail(emailOrPhone)){
+
+            const userEmail = await userModel.findOne({email : emailOrPhone});
+
+            if(!userEmail){
+                return next(createError(400, "User not found!"));
+            }
+    
+            // create access token
+            let activationCode = getRandomCode(100000, 999999);
+    
+            // check activation code
+            const checkActivationCode = await userModel.findOne({accessToken : activationCode});
+    
+            if( checkActivationCode ){
+                activationCode = getRandomCode(100000, 999999);
+            }
+    
+            if(userEmail){
+    
+                const activationToken  = createToken({id : userEmail._id}, '30d');
+        
+                sendActivationLink(userEmail.email, {
+                    name : userEmail.firstName + ' ' + userEmail.surName,
+                    link : `${process.env.APP_URI + ':' + process.env.SERVER_PORT}/api/v1/user/activate/${activationToken}`,
+                    code : activationCode
+                });
+    
+                await userModel.findByIdAndUpdate(userEmail._id, {
+                    accessToken : activationCode
+                });
+                
+                return res.status(200).cookie('otp', userEmail.email, {
+                    expires : new Date(Date.now() + 1000 * 60 * 60 * 72)
+                }).json({
+                    message : "User forgot password link send to your account! Check your email."
+                });
+    
+            }
+
+        }else if(isPhone(emailOrPhone)){
+
+            const userPhone = await userModel.findOne({phone : emailOrPhone});
+
+            if(!userPhone){
+                return next(createError(400, "Invalid phone No.!"))
+            }
+    
+            // create access token
+            let activationCode = getRandomCode(100000, 999999);
+    
+            // check activation code
+            const checkActivationCode = await userModel.findOne({accessToken : activationCode});
+    
+            if( checkActivationCode ){
+                activationCode = getRandomCode(100000, 999999);
+            }
+    
+            if(userPhone){
+        
+                sendSms(userPhone.phone, `Your OTP code is ${activationCode}`);
+    
+                await userModel.findByIdAndUpdate(userPhone._id, {
+                    accessToken : activationCode
+                });
+                
+                return res.status(200).cookie('otp', userPhone.phone, {
+                    expires : new Date(Date.now() + 1000 * 60 * 60 * 72)
+                }).json({
+                    message : "User forgot password OTP send to your phone number! Check your message!"
+                });
+    
+            }
+
+        }else{
+            return next(createError(400, "Invalid phone or email address!"));
+        }
+
+    }catch(err){
+        return next(err);
+    }
+
+}
+
+/**
+ * check password reset OTP
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
+
+export const checkPasswordResetOTP = async (req, res, next) => {
+
+    try{
+
+        const { phoneOrEmail, code } = req.body;
+
+        if(isEmail(phoneOrEmail)){
+
+            const emailUser = await userModel.findOne().where("email").equals(phoneOrEmail);
             
-            res.status(200).cookie('otp', user.email, {
-                expires : new Date(Date.now() + 1000 * 60 * 60 * 72)
-            }).json({
-                message : "User activation link send to your account! Check your email."
-            });
+            if(!emailUser){
+                return next(createError(400, "Invalid email address!"));
+            }
 
+            if(emailUser){
+
+                if(emailUser.accessToken != code){
+                    return next(createError(400, "Invalid OTP code!"));
+                }
+
+                if(emailUser.accessToken == code){
+                    return res.status(200).cookie('changePassID', emailUser._id.toString(), {
+                        expires : new Date(Date.now() + 1000 * 60 * 60 * 72)
+                    }).cookie('changePassCode', code, {
+                        expires : new Date(Date.now() + 1000 * 60 * 60 * 72)
+                    }).json({
+                        message : "You can change your password!"
+                    });
+                }
+
+            }
+
+        }else if(isPhone(phoneOrEmail)){
+
+            const phoneUser = await userModel.findOne().where("phone").equals(phoneOrEmail);
+            
+            if(!phoneUser){
+                return next(createError(400, "Invalid phone number!"));
+            }
+
+            if(phoneUser){
+
+                if(phoneUser.accessToken != code){
+                    return next(createError(400, "Invalid OTP code!"));
+                }
+
+                if(phoneUser.accessToken == code){
+                    return res.status(200).cookie('changePass', phoneUser._id.toString(), {
+                        expires : new Date(Date.now() + 1000 * 60 * 60 * 72)
+                    }).json({
+                        message : "You can change your password!"
+                    });
+                }
+
+            }
+
+        }else{
+            return next(createError(400, "Invalid phone number or email address!"));
         }
 
     }catch(err){
@@ -530,5 +751,36 @@ export const resendAccountActivationLink = async (req, res, next) => {
 }
 
 
+export const passwordReset = async (req, res, next) => {
 
+    try{
 
+        const {id, password, code} = req.body;
+
+        const userData = await userModel.findOne().and([
+            {_id : id}, 
+            {accessToken : code}
+        ]);
+
+        if(!userData){
+            next(400, "Password change request failed!");
+        }
+
+        if(userData){
+
+            await userModel.findByIdAndUpdate(userData._id, {
+                password : genHashPassword(password),
+                accessToken : ""
+            });
+
+            return res.status(200).clearCookie("changePassID").clearCookie("changePassCode").clearCookie("otp").clearCookie("findUser").json({
+                message : "Password changed successfull!"
+            });
+
+        }
+
+    }catch(err){
+        next(err);
+    }
+
+}
