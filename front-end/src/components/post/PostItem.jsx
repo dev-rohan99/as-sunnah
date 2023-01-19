@@ -2,7 +2,7 @@ import React from 'react';
 import { BsThreeDots } from "react-icons/bs";
 import { RxCross1 } from "react-icons/rx";
 
-const Post = ({profile, postImage, postDesc}) => {
+const PostItem = ({profile, postImage, postDesc}) => {
   return (
     <div>
       
@@ -37,4 +37,4 @@ const Post = ({profile, postImage, postDesc}) => {
   )
 }
 
-export default Post;
+export default PostItem;

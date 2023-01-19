@@ -52,7 +52,7 @@ const authReducer = (state = initialState, {type, payload}) => {
             return {
                 ...state,
                 loading : true,
-                user : payload
+                loginState : true
             };
 
         case LOGGEDIN_USER_SUCCESS:
@@ -67,6 +67,7 @@ const authReducer = (state = initialState, {type, payload}) => {
             return {
                 ...state,
                 loading : false,
+                loginState : false,
                 user : null
             };
 
@@ -74,6 +75,7 @@ const authReducer = (state = initialState, {type, payload}) => {
             return {
                 ...state,
                 loading : false,
+                loginState : false,
                 user : null
             };
 

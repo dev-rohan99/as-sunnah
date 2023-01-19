@@ -214,13 +214,13 @@ export const userLogin = (data, navigate) => async (dispatch) => {
  * @returns 
  */
 
-export const accessLoggedInUser = (token, navigate) => async (dispatch) => {
+export const accessLoggedInUser = (token) => async (dispatch) => {
 
     try{
 
-        dispatch({
-            type : LOGGEDIN_USER_REQUEST
-        });
+        // dispatch({
+        //     type : LOGGEDIN_USER_REQUEST
+        // });
 
         await axios.get("/api/v1/user/me", {
             headers : {

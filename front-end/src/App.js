@@ -16,6 +16,8 @@ import AuthRedirect from "./middlewares/AuthRedirect";
 import { useEffect } from "react";
 import Cookies from "js-cookie";
 import { accessLoggedInUser } from "./redux/auth/action";
+import LoggedInUser from "./middlewares/LoggedInUser";
+import LoggedOutUser from "./middlewares/LoggedOutUser";
 
 function App() {
 
@@ -28,7 +30,7 @@ function App() {
   useEffect(() => {
 
     if(token){
-      userAccessDispatch(accessLoggedInUser(token, navigate));
+      userAccessDispatch(accessLoggedInUser(token));
     }
 
   }, [userAccessDispatch]);
@@ -47,9 +49,17 @@ function App() {
       />
 
       <Routes>
-        <Route path="/" element={<AuthReject><Home /></AuthReject>} />
-        <Route path="/profile" element={<AuthReject><Profile /></AuthReject>} />
-        <Route path="/login" element={<AuthRedirect><Login /></AuthRedirect>} />
+
+        <Route path="/" element={<Home />} />
+
+        <Route element={<LoggedOutUser/>}>
+          <Route path="/login" element={<Login />} />
+        </Route>
+
+        <Route element={<LoggedInUser/>}>
+          <Route path="/profile" element={<Profile />} />
+        </Route>
+
         <Route path="/activation/:type" element={<Activation />} />
         <Route path="/find-account" element={<FindAccount />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />

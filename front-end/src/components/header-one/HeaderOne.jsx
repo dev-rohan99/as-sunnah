@@ -7,16 +7,23 @@ import { RiVideoLine, RiBankCardLine, RiLogoutBoxRFill } from "react-icons/ri";
 import { MdMessage, MdCircleNotifications, MdLiveHelp, MdDarkMode, MdFeedback } from "react-icons/md";
 import Avatar from "../avatar/Avatar";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { userLogout } from "../../redux/auth/action";
 
 const HeaderOne = () => {
 
     const { user } = useSelector((state) => state.auth);
     const [userMenu, setUserMenu] = useState(false);
+    const dispatch = useDispatch();
 
     const handleUserMenu = (event) => {
         event.preventDefault();
         setUserMenu(!userMenu);
+    }
+
+    const handleLogout = (event) => {
+        event.preventDefault();
+        dispatch(userLogout());
     }
 
   return (
@@ -58,7 +65,7 @@ const HeaderOne = () => {
                             <li><a className="iconMenuleftList" href="#"><MdLiveHelp className="listIcon2 h-[30px] w-[30px] text-[#2b2b2b]"/> <h6 className="listText">Support & Help</h6></a></li>
                             <li><a className="iconMenuleftList" href="#"><MdDarkMode className="listIcon h-[30px] w-[30px] text-[#2b2b2b]"/> <h6 className="listText">Display</h6></a></li>
                             <li><a className="iconMenuleftList" href="#"><MdFeedback className="listIcon2 h-[30px] w-[30px] text-[#2b2b2b]"/> <h6 className="listText">Feedback</h6></a></li>
-                            <li><a className="iconMenuleftList" href="#"><RiLogoutBoxRFill className="listIcon2 h-[30px] w-[30px] text-[#2b2b2b]"/> <h6 className="listText">Log out</h6></a></li>
+                            <li><a onClick={handleLogout} className="iconMenuleftList" href="/"><RiLogoutBoxRFill className="listIcon2 h-[30px] w-[30px] text-[#2b2b2b]"/> <h6 className="listText">Log out</h6></a></li>
                         </ul>
                         }
                     </li>
