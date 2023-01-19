@@ -1,7 +1,8 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import createToast from "../../utility/toast.js";
-import { USER_FAILED, USER_REQUEST, USER_SUCCESS } from "./actionType.js";
+import { LOADER_START } from "../loader/loaderType.js";
+import { LOGGEDIN_USER_FAILED, LOGGEDIN_USER_REQUEST, LOGGEDIN_USER_SUCCESS, LOGIN_FAILED, LOGIN_REQUEST, LOGIN_SUCCESS, REGISTER_FAILED, REGISTER_REQUEST, REGISTER_SUCCESS, USER_LOGOUT } from "./actionType.js";
 
 
 /**
@@ -19,13 +20,13 @@ export const userRegister = (data, setRegister, setInput, event, navigate) => as
     try{
 
         dispatch({
-            type : USER_REQUEST
+            type : REGISTER_REQUEST
         });
 
         await axios.post("/api/v1/user/register", data).then((res) => {
 
             dispatch({
-                type : USER_SUCCESS,
+                type : REGISTER_SUCCESS,
                 payload : res.data.message
             });
             createToast("Your register process successfull! Thank you for joining us.", "success");
@@ -47,7 +48,7 @@ export const userRegister = (data, setRegister, setInput, event, navigate) => as
         }).catch((err) => {
             createToast(err.response.data.message, "error");
             dispatch({
-                type : USER_FAILED,
+                type : REGISTER_FAILED,
                 payload : err.response.data
             });
         });
@@ -55,7 +56,7 @@ export const userRegister = (data, setRegister, setInput, event, navigate) => as
     }catch(err){
         createToast(err.response.data.message, "error");
         dispatch({
-            type : USER_FAILED,
+            type : REGISTER_FAILED,
             payload : err.response.data
         });
     }
@@ -159,10 +160,110 @@ export const changePassword = (data, navigate) => async (dispatch) => {
             navigate("/login");
         }).catch(err => {
             createToast(err.response.data.message, "error");
-            console.log(err);
         });
     }catch(err){
         createToast(err.response.data.message, "error")
     }
 
 }
+
+/**
+ * user login
+ * @param {*} data 
+ * @param {*} navigate 
+ * @returns 
+ */
+
+export const userLogin = (data, navigate) => async (dispatch) => {
+
+    try{
+
+        dispatch({
+            type : LOGIN_REQUEST
+        });
+
+        await axios.post("/api/v1/user/login", {
+            phoneOrEmail : data.phoneOrEmail,
+            password : data.password
+        }).then(res => {
+            dispatch({
+                type : LOGIN_SUCCESS,
+                payload : res.data.user
+            });
+            dispatch({
+                type : LOADER_START
+            });
+            createToast(res.data.message, "success");
+            navigate("/");
+        }).catch(err => {
+            dispatch({
+                type : LOGIN_FAILED
+            });
+            createToast(err.response.data.message, "error");
+        });
+    }catch(err){
+        createToast(err.response.data.message, "error")
+    }
+
+}
+
+/**
+ * access logged in user
+ * @param {*} data 
+ * @param {*} navigate 
+ * @returns 
+ */
+
+export const accessLoggedInUser = (token, navigate) => async (dispatch) => {
+
+    try{
+
+        dispatch({
+            type : LOGGEDIN_USER_REQUEST
+        });
+
+        await axios.get("/api/v1/user/me", {
+            headers : {
+                Authorization : `Bearer ${token}`
+            },
+        }).then(res => {
+
+            dispatch({
+                type : LOGGEDIN_USER_SUCCESS,
+                payload : res.data.user
+            });
+            dispatch({
+                type : LOADER_START
+            });
+            
+        }).catch(err => {
+            dispatch({
+                type : LOGGEDIN_USER_FAILED
+            });
+            dispatch(userLogout());
+            createToast(err.response.data.message, "error");
+        });
+    }catch(err){
+        dispatch(userLogout());
+        createToast(err.response.data.message, "error");
+    }
+
+}
+
+/**
+ * user logout
+ * @returns 
+ */
+
+export const userLogout = () => (dispatch) => {
+
+    dispatch({
+        type : LOADER_START
+    });
+    Cookies.remove("authToken");
+    dispatch({
+        type : USER_LOGOUT
+    });
+
+}
+

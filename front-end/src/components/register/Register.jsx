@@ -11,14 +11,18 @@ const Register = ({setRegister}) => {
 
   const Navigate = useNavigate();
 
+  let date = new Date();
+
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
   const [input, setInput] = useState({
     fname : "",
     sname : "",
     phoneOrEmail : "",
     password : "",
-    day : "",
-    month : "",
-    year : "",
+    day : date.getDate(),
+    month : months[date.getMonth()],
+    year : date.getFullYear(),
     gender : ""
   });
 
@@ -31,7 +35,7 @@ const Register = ({setRegister}) => {
 
   const days = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
 
-  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  
 
   const years = Array.from(
     {length : 150},
@@ -144,7 +148,7 @@ const Register = ({setRegister}) => {
                       {
                         days.map((data, index) => 
                         
-                          <option value={data} key={index + 1}>{data}</option>
+                          <option selected={ data === input.day ? true : false } value={data} key={index + 1}>{data}</option>
                         
                         )
                       }
@@ -156,7 +160,7 @@ const Register = ({setRegister}) => {
                       {
                         months.map((data, index) => 
 
-                          <option value={data} key={index + 1}>{data}</option>
+                          <option selected={ data === input.month ? true : false } value={data} key={index + 1}>{data}</option>
                         
                         )
                       }
@@ -168,7 +172,7 @@ const Register = ({setRegister}) => {
                       {
                         years.map((data, index) => 
 
-                          <option value={data} key={index + 1}>{data}</option>
+                          <option selected={ data === input.year ? true : false } value={data} key={index + 1}>{data}</option>
                         
                         )
                       }

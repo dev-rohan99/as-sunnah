@@ -115,36 +115,74 @@ export const login = async (req, res, next) => {
 
     try{
 
-        const {email, password} = req.body;
+        const {phoneOrEmail, password} = req.body;
 
-        if(!email || !password){
-            next(createError(400, 'All fields are required!'));
-        }
+        if(isEmail(phoneOrEmail)){
 
-        if(!isEmail){
-            next(400, 'Invalid email address!');
-        }
-
-        const loginUser = await userModel.findOne({email : email});
-        
-        if(!loginUser){
-            next(createError(400, 'Login user not found!'));
-        }else{
-
-            if(!verifyPassword(password, loginUser.password)){
-                next(400, 'Password not matched!')
+            if(!phoneOrEmail || !password){
+                return next(createError(400, 'All fields are required!'));
+            }
+    
+            if(!isEmail(phoneOrEmail)){
+                return next(400, 'Invalid email address!');
+            }
+    
+            const loginUserForEmail = await userModel.findOne({email : phoneOrEmail});
+            
+            if(!loginUserForEmail){
+                return next(createError(400, 'Login user not found!'));
             }else{
-
-                const token = createToken({id : loginUser._id}, '365d');
-                
-                res.status(200).cookie('authToken', token).json({
-                    message : "User login successfull!",
-                    user : loginUser,
-                    token : token
-                });
-
+    
+                if(!verifyPassword(password, loginUserForEmail.password)){
+                    return next(createError(400, 'Password not matched!'));
+                }else{
+    
+                    const token = createToken({id : loginUserForEmail._id}, '365d');
+                    
+                    return res.status(200).cookie('authToken', token).json({
+                        message : "User login successfull!",
+                        user : loginUserForEmail,
+                        token : token
+                    });
+    
+                }
+    
             }
 
+        }else if(isPhone(phoneOrEmail)){
+
+            if(!phoneOrEmail || !password){
+                return next(createError(400, 'All fields are required!'));
+            }
+    
+            if(!isEmail(phoneOrEmail)){
+                return next(400, 'Invalid email address!');
+            }
+    
+            const loginUserForPhone = await userModel.findOne({phone : phoneOrEmail});
+            
+            if(!loginUserForPhone){
+                return next(createError(400, 'Login user not found!'));
+            }else{
+    
+                if(!verifyPassword(password, loginUserForPhone.password)){
+                    return next(createError(400, 'Password not matched!'));
+                }else{
+    
+                    const token = createToken({id : loginUserForPhone._id}, '365d');
+                    
+                    return res.status(200).cookie('authToken', token).json({
+                        message : "User login successfull!",
+                        user : loginUserForPhone,
+                        token : token
+                    });
+    
+                }
+    
+            }
+
+        }else{
+            return next(createError(400, 'Invalid phone or email address!'));
         }
 
     }catch(err){
@@ -750,6 +788,13 @@ export const checkPasswordResetOTP = async (req, res, next) => {
 
 }
 
+/**
+ * password reset
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
 
 export const passwordReset = async (req, res, next) => {
 

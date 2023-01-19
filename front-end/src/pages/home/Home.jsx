@@ -10,8 +10,11 @@ import { RiPagesFill, RiBankCardFill, RiVideoFill, RiGamepadFill, RiLiveFill } f
 import { MdMessage, MdBloodtype, MdPayments } from "react-icons/md";
 import Post from '../../components/post/Post';
 import HeaderOne from '../../components/header-one/HeaderOne';
+import { useSelector } from 'react-redux';
 
 const Home = () => {
+
+  const { user } = useSelector((state) => state.auth);
 
   return (
     <div>
@@ -98,11 +101,11 @@ const Home = () => {
               <hr />
 
               <div className="flex mt-3 justify-between">
-                <a href="/" className="w-[180px] hover:bg-[#d82e394d] rounded-md font-semibold text-[#949494] h-[40px] flex items-center justify-center"><RiLiveFill className="h-[30px] w-[30px] text-[#D82E38] mr-2"/>Live video</a>
+                <a href="/" className="w-[180px] hover:bg-[#d82e394d] rounded-md font-semibold text-[#2b2b2b] h-[40px] flex items-center justify-center"><RiLiveFill className="h-[30px] w-[30px] text-[#D82E38] mr-2"/>Live video</a>
 
-                <a href="/" className="w-[180px] hover:bg-[#d82e394d] rounded-md font-semibold text-[#949494] h-[40px] flex items-center justify-center"><HiPhotograph className="h-[30px] w-[30px] text-[#41B35D] mr-2"/>Photo/video</a>
+                <a href="/" className="w-[180px] hover:bg-[#d82e394d] rounded-md font-semibold text-[#2b2b2b] h-[40px] flex items-center justify-center"><HiPhotograph className="h-[30px] w-[30px] text-[#41B35D] mr-2"/>Photo/video</a>
                 
-                <a href="/" className="w-[180px] hover:bg-[#d82e394d] rounded-md font-semibold text-[#949494] h-[40px] flex items-center justify-center"><BiHappyAlt className="h-[30px] w-[30px] text-[#ffb508] mr-2"/>Felling/activity</a>
+                <a href="/" className="w-[180px] hover:bg-[#d82e394d] rounded-md font-semibold text-[#2b2b2b] h-[40px] flex items-center justify-center"><BiHappyAlt className="h-[30px] w-[30px] text-[#ffb508] mr-2"/>Felling/activity</a>
               </div>
             </div>
             

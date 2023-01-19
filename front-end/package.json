@@ -16,6 +16,7 @@
     "react-router-dom": "^6.6.1",
     "react-scripts": "5.0.1",
     "react-toastify": "^9.1.1",
+    "react-top-loading-bar": "^2.3.1",
     "redux": "^4.2.0",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.2",
@@ -48,5 +49,5 @@
   "devDependencies": {
     "tailwindcss": "^3.2.4"
   },
-  "proxy" : "http://localhost:8080"
+  "proxy": "http://localhost:8080"
 }

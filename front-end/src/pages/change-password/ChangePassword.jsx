@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from 'react-router-dom';
 import HeaderTwo from '../../components/header-two/HeaderTwo';
-import { changePassword } from '../../redux/auth/action';
+import { changePassword } from '../../redux/auth/action.js';
 import createToast from '../../utility/toast';
 
 const ChangePassword = () => {

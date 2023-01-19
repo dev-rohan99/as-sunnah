@@ -1,9 +1,9 @@
 
 const initialState = {
-    data : [],
+    user : null,
     loading : false,
     loginState : false,
-    message : ""
+    message : null
 }
 
 export default initialState;
