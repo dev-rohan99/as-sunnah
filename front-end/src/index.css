@@ -50,7 +50,39 @@ body{
   }
 
   .storyWrapper{
-    @apply w-[110px] h-[190px] bg-[#ffffff] items-center rounded-lg overflow-hidden relative shadow-md mr-2 last:mr-0 hover:scale-105 transition duration-200 transform hover:animate-pulse ease-in cursor-pointer
+    @apply w-[110px] h-[190px] bg-[#ffffff] items-center rounded-lg overflow-hidden relative shadow-md mr-2 last:mr-0 hover:scale-[1.01] transition duration-200 transform hover:animate-pulse ease-in cursor-pointer
+  }
+
+  .switch {
+    @apply w-0 h-0 opacity-0
+  }
+
+  .slider {
+    @apply absolute left-0 bottom-0 right-0 top-0 cursor-pointer bg-[#ccc] transition-all duration-100 before:absolute before:content-[''] before:left-[4px] before:bottom-[4px] before:w-[26px] before:h-[26px] before:bg-[#fff] before:transition-all before:duration-100
+  }
+
+  .switch:checked + .slider{
+    @apply bg-[#D82E38]
+  }
+
+  .switch:checked + .slider:before{
+    @apply transform translate-x-[26px]
+  }
+  
+  /* .switch:focus + .slider{
+    @apply shadow-md shadow-[#2196F3]
+  } */
+
+  .activeTwo{
+    @apply bg-[#d82e3957] text-[#D82E38]
+  }
+
+  .profileHeaderMenuItems{
+    @apply relative font-semibold hover:bg-[#F2B8BB] rounded-md hover:text-[#D82E38] px-3 py-2 my-1 text-[gray] block
+  }
+
+  .profileHeaderMenuItems.activeThree{
+    @apply after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-[100%] after:h-[4px] after:bg-[#D82E38] text-[#D82E38]
   }
 
 }

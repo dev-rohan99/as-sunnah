@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import logo from "../../assets/images/logo3.png";
 import { BsGrid3X3GapFill } from "react-icons/bs";
 import { AiFillSetting, AiOutlineHome } from "react-icons/ai";
@@ -9,12 +9,18 @@ import Avatar from "../avatar/Avatar";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../../redux/auth/action";
+import { Link } from "react-router-dom";
+import usePopupClose from "../../hooks/usePopupClose.js";
 
 const HeaderOne = () => {
 
     const { user } = useSelector((state) => state.auth);
     const [userMenu, setUserMenu] = useState(false);
     const dispatch = useDispatch();
+
+    const userDropdown = useRef(null);
+    
+    usePopupClose(userDropdown, setUserMenu);
 
     const handleUserMenu = (event) => {
         event.preventDefault();
@@ -29,7 +35,7 @@ const HeaderOne = () => {
   return (
     <div>
         
-        <div className="mainNavWrapper z-20 bg-[#ffffff] shadow-md fixed top-0 left-0 right-0">
+        <div className="mainNavWrapper z-50 bg-[#ffffff] shadow-md fixed top-0 left-0 right-0">
             <div className="navContainer pr-[15px] pl-[15px] pt-[5px] pb-[5px] flex justify-between">
             
             <div className="w-[320px] flex items-center">
@@ -58,8 +64,8 @@ const HeaderOne = () => {
                         </a>
 
                         {
-                            userMenu && <ul className="w-[330px] shadow-lg rounded-md border-t-[5px] border-[#D82E38] rounded-t-none bg-[#F3C0C3] p-3 absolute right-0 top-[53px]">
-                            <li><a className="flex p-2 mb-3 items-center justify-start hover:bg-[#E4E6E8] rounded-l-md" href="#"><Avatar /> <h6 className="font-[600] ml-3 text-[#383838] text-[17px]">{user.firstName} {user.surName}</h6></a></li>
+                            userMenu && <ul ref={userDropdown} className="w-[330px] shadow-lg rounded-md border-t-[5px] border-[#D82E38] rounded-t-none bg-[#F3C0C3] p-3 absolute right-0 top-[53px]">
+                            <li><Link className="flex p-2 mb-3 items-center justify-start hover:bg-[#E4E6E8] rounded-l-md" to="/profile"><Avatar /> <h6 className="font-[600] ml-3 text-[#383838] text-[17px]">{user.firstName} {user.surName}</h6></Link></li>
 
                             <li><a className="iconMenuleftList" href="#"><AiFillSetting className="listIcon h-[30px] w-[30px] text-[#2b2b2b]"/> <h6 className="listText">Setting & Privacy</h6></a></li>
                             <li><a className="iconMenuleftList" href="#"><MdLiveHelp className="listIcon2 h-[30px] w-[30px] text-[#2b2b2b]"/> <h6 className="listText">Support & Help</h6></a></li>

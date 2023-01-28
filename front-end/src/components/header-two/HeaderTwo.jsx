@@ -7,7 +7,7 @@ const HeaderTwo = () => {
   return (
     <div>
         
-        <div className="mainNavWrapper z-20 bg-[#ffffff] shadow-md fixed top-0 left-0 right-0">
+        <div className="mainNavWrapper z-50 bg-[#ffffff] shadow-md fixed top-0 left-0 right-0">
             <div className="navContainer pr-[15px] pl-[15px] pt-[5px] pb-[5px] flex justify-between">
             
                 <div className="w-[320px] flex items-center">

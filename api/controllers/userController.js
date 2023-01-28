@@ -829,3 +829,38 @@ export const passwordReset = async (req, res, next) => {
     }
 
 }
+
+/**
+ * user update profile
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+
+export const userUpdateProfile = async (req, res, next) => {
+
+    try{
+
+        const {id} = req.params;
+        const data = req.body;
+
+        const userUpdate = await userModel.findByIdAndUpdate(id, data, { new : true });
+
+        if(userUpdate){
+            return res.status(200).json({
+                message : "Profile updated successfull!",
+                user : userUpdate
+            });
+        }
+        
+        if(!userUpdate){
+            return next(createError(400, "Profile update failed!"))
+        }
+
+    }catch(err){
+        return next(err);
+    }
+
+}
+
+

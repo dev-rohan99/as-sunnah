@@ -18,6 +18,7 @@ import Cookies from "js-cookie";
 import { accessLoggedInUser } from "./redux/auth/action";
 import LoggedInUser from "./middlewares/LoggedInUser";
 import LoggedOutUser from "./middlewares/LoggedOutUser";
+import AboutProfile from "./pages/about-profile/AboutProfile";
 
 function App() {
 
@@ -58,12 +59,13 @@ function App() {
 
         <Route element={<LoggedInUser/>}>
           <Route path="/profile" element={<Profile />} />
+          <Route path="/about-profile" element={<AboutProfile />} />
+          <Route path="/find-account" element={<FindAccount />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/change-password" element={<ChangePassword />} />
         </Route>
 
         <Route path="/activation/:type" element={<Activation />} />
-        <Route path="/find-account" element={<FindAccount />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/change-password" element={<ChangePassword />} />
       </Routes>
     </div>
   );

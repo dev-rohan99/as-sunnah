@@ -1,16 +1,17 @@
 import React from 'react';
 import { BsThreeDots } from "react-icons/bs";
 import { RxCross1 } from "react-icons/rx";
+import Avatar from '../avatar/Avatar';
 
-const PostItem = ({profile, postImage, postDesc}) => {
+const PostItem = ({postImage, postDesc}) => {
   return (
-    <div>
+    <>
       
-      <div className="p-3 mt-4 bg-[#ffffff] shadow-md rounded-md">
+      <div className="w-[555px] p-3 mb-4 bg-[#ffffff] shadow-md rounded-md">
         <div className="flex justify-between items-center">
 
           <div className="flex justify-start items-center">
-            <img src={profile} className="h-[35px] rounded-full w-[35px] object-cover"/>
+            <Avatar/>
             <div className="w-[250px] flex flex-col">
               <a href="/" className="ml-3 font-semibold text-[14px] text-[#2b2b2b]">Rohan Mostafa</a>
               <a href="/" className="ml-3 font-normal text-[14px] mt-[-3px] text-[#2b2b2b]">1h ago</a>
@@ -33,7 +34,7 @@ const PostItem = ({profile, postImage, postDesc}) => {
         <img src={postImage} alt="" />
       </div>
 
-    </div>
+    </>
   )
 }
 
