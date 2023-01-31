@@ -1,21 +1,39 @@
 import React, { useRef, useState } from 'react';
 import logo from "../../assets/images/logo3.png";
-import { AiFillHeart, AiFillSetting, AiTwotoneLike } from 'react-icons/ai';
+import { AiFillHeart, AiFillSetting, AiOutlineLeft, AiOutlineRight, AiTwotoneLike } from 'react-icons/ai';
 import { BsFillEmojiAngryFill, BsFillEmojiLaughingFill, BsGrid3X3GapFill, BsThreeDots } from 'react-icons/bs';
 import { MdCircleNotifications, MdDarkMode, MdFeedback, MdLiveHelp, MdMessage } from 'react-icons/md';
 import { RiEmotionSadFill, RiLogoutBoxRFill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import usePopupClose from '../../hooks/usePopupClose';
-import { userLogout } from '../../redux/auth/action';
+import { userLogout } from '../../redux/auth/action.js';
 import Avatar from '../avatar/Avatar';
 import { Link } from 'react-router-dom';
 import { RxCross1 } from 'react-icons/rx';
+import { useEffect } from 'react';
 
 
 const FullScreenStoryPopup = ({setFeatured}) => {
 
   const { user } = useSelector((state) => state.auth);
   const [userMenu, setUserMenu] = useState(false);
+  const [sliderCounter, setSliderCounter] = useState(0);
+  const [featuredImg, setFeaturedImg] = useState([
+
+    {
+      img : "https://www.shutterstock.com/image-photo/islam-holy-book-muslims-quran-260nw-564757867.jpg"
+    },
+
+    {
+      img : "https://thumbs.dreamstime.com/b/quran-15409447.jpg"
+    },
+
+    {
+      img : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRwlyING-01yyYkhMBKHhc1aRcnfI2RCjX1xThZXPPZwLTPqOM40jcOWiG2oXDXvEEZ9Q&usqp=CAU"
+    }
+
+  ]);
+
   const dispatch = useDispatch();
 
   const userDropdown = useRef(null);
@@ -36,6 +54,30 @@ const FullScreenStoryPopup = ({setFeatured}) => {
     event.preventDefault();
     setFeatured(false);
   }
+
+  const handleSliderPrev = (event) => {
+    event.preventDefault();
+    setSliderCounter((sliderCounter - 1) % featuredImg.length);
+  }
+
+  const handleSliderNext = (event) => {
+    event.preventDefault();
+    setSliderCounter((sliderCounter + 1) % featuredImg.length);
+  }
+
+  useEffect(() => {
+
+    const slider = setTimeout(() => {
+      if(sliderCounter === (featuredImg.length - 1)){
+        setFeatured(false);
+      }
+      setSliderCounter(sliderCounter + 1);
+    }, 4000);
+
+    return () => clearTimeout(slider);
+
+  }, [sliderCounter]);
+
 
   return (
     <>
@@ -82,9 +124,40 @@ const FullScreenStoryPopup = ({setFeatured}) => {
               </div>
             </div>
 
-            <div className="w-[100%] flex justify-center items-end h-[630px]">
-              <div className="w-[370px] rounded-lg bg-[#202020] h-[590px]">
+            <div className="w-[100%] relative flex justify-center items-end h-[630px]">
+              <div className="w-[370px] relative overflow-hidden rounded-lg bg-[#202020] h-[590px]">
+                  
+                  
+                  <div className="w-[100%] px-4 py-4 flex gap-2 absolute top-0 left-0">
+                    {
+                      featuredImg.map((data, index) => 
 
+                        <div className="w-[100%] h-[4px] overflow-hidden rounded-md bg-[#ffffff70]">
+                          <div className={`barItem ${index === sliderCounter ? "w-[100%] transition-all duration-[3s]" : ""} ${index < sliderCounter ? "w-[100%] transition-all duration-[3s]" : ""}`}></div>
+                        </div>
+
+                      )
+                    }
+                  </div>
+
+                  <div className="w-[100%] h-[100%] flex items-center">
+                    <img src={featuredImg[sliderCounter].img} alt="" className="w-[100%] h-fit" />
+                  </div>
+
+                  
+
+              </div>
+
+              <div className="w-[600px] z-[110] absolute top-[50%] flex justify-between">
+                {
+                  sliderCounter === 0 ? "" : <a onClick={handleSliderPrev} href="/" className="w-[50px] h-[50px] rounded-full text-[#ffffff] flex justify-center items-center hover:bg-[#3f3f3f] bg-[#202020] mr-auto">
+                    <AiOutlineLeft className="w-[35px] h-[35px]"/>
+                  </a>
+                }
+
+                <a onClick={handleSliderNext} href="/" className="w-[50px] h-[50px] rounded-full text-[#ffffff] flex justify-center ml-auto items-center hover:bg-[#3f3f3f] bg-[#202020]">
+                  <AiOutlineRight className="w-[35px] h-[35px]"/>
+                </a>
               </div>
             </div>
 

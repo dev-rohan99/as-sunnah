@@ -53,6 +53,10 @@ body{
     @apply w-[110px] h-[190px] bg-[#ffffff] items-center rounded-lg overflow-hidden relative shadow-md mr-2 last:mr-0 hover:scale-[1.01] transition duration-200 transform hover:animate-pulse ease-in cursor-pointer
   }
 
+  .uploadPreviewFeatured{
+    @apply w-[100px] h-[170px] bg-[#ffffff] items-center rounded-lg overflow-hidden relative shadow-md mr-2 last:mr-0 hover:scale-[1.005] transition duration-200 transform hover:animate-pulse ease-in cursor-pointer
+  }
+
   .switch {
     @apply w-0 h-0 opacity-0
   }
@@ -85,7 +89,13 @@ body{
     @apply after:content-[""] after:absolute after:left-0 after:bottom-[-4px] after:w-[100%] after:h-[4px] after:bg-[#D82E38] text-[#D82E38]
   }
 
+  .barItem{
+    @apply w-[0%] h-[4px] bg-[#fff]
+  }
+
 }
 
-
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
 

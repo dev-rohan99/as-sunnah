@@ -5,6 +5,7 @@ import { MdHomeWork, MdLocationOn, MdWork } from 'react-icons/md';
 import { RiTimeFill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import { userProfileUpdate } from '../../redux/auth/action';
+import FeaturedPopup from '../modals/FeaturedPopup';
 import FullScreenStoryPopup from '../modals/FullScreenStoryPopup';
 import ProfileDetailsModal from '../modals/ProfileDetailsModal';
 
@@ -18,6 +19,7 @@ const ProfileIntro = () => {
     const [remain, setRemain] = useState(101 - bio.length);
     const [saveBtn, setSaveBtn] = useState(false);
     const [featured, setFeatured] = useState(false);
+    const [featuredPopup, setFeaturedPopup] = useState(false);
     const dispatch = useDispatch();
 
     const handleShowFeatured = () => {
@@ -46,6 +48,11 @@ const ProfileIntro = () => {
     const handleDetailsModal = (event) => {
         event.preventDefault();
         setDetailsModal(true);
+    }
+
+    const handleFeaturedPopupShow = (event) => {
+        event.preventDefault();
+        setFeaturedPopup(true);
     }
 
 
@@ -117,7 +124,7 @@ const ProfileIntro = () => {
                     <img src={"https://img.freepik.com/free-vector/arab-man-cartoon-character_1308-46539.jpg?w=360"} className="h-[100%] w-[100%] object-cover"/>
                 </div>
 
-                <a href="#" className="mb-[10px] mt-[15px] px-4 py-2 font-semibold text-[#ffffff] rounded-md bg-[#444444] flex justify-center items-center">Add Featured</a>
+                <a onClick={handleFeaturedPopupShow} href="/" className="mb-[10px] mt-[15px] px-4 py-2 font-semibold text-[#ffffff] rounded-md bg-[#444444] flex justify-center items-center">Add Featured</a>
 
                 
             </div>
@@ -178,6 +185,10 @@ const ProfileIntro = () => {
 
         {
             detailsModal && <ProfileDetailsModal setDetailsModal={setDetailsModal}/>
+        }
+
+        {
+            featuredPopup && <FeaturedPopup setFeaturedPopup={setFeaturedPopup}/>
         }
     
     </>
