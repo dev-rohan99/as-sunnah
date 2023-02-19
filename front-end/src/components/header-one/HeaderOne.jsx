@@ -1,9 +1,9 @@
 import React, { useRef } from "react";
 import logo from "../../assets/images/logo3.png";
 import { BsGrid3X3GapFill } from "react-icons/bs";
-import { AiFillSetting, AiOutlineHome } from "react-icons/ai";
+import { AiFillSetting, AiFillShop, AiOutlineHome } from "react-icons/ai";
 import { HiOutlineUsers, HiOutlineUserGroup } from "react-icons/hi";
-import { RiVideoLine, RiBankCardLine, RiLogoutBoxRFill } from "react-icons/ri";
+import { RiVideoLine, RiBankCardLine, RiLogoutBoxRFill, RiGroup2Fill } from "react-icons/ri";
 import { MdMessage, MdCircleNotifications, MdLiveHelp, MdDarkMode, MdFeedback } from "react-icons/md";
 import Avatar from "../avatar/Avatar";
 import { useState } from "react";
@@ -17,6 +17,11 @@ const HeaderOne = () => {
     const { user } = useSelector((state) => state.auth);
     const [userMenu, setUserMenu] = useState(false);
     const dispatch = useDispatch();
+    const [home, setHome] = useState(true);
+    const [friends, setFriends] = useState(false);
+    const [watch, setWatch] = useState(false);
+    const [shop, setShop] = useState(false);
+    const [groups, setgroups] = useState(false);
 
     const userDropdown = useRef(null);
     
@@ -32,6 +37,52 @@ const HeaderOne = () => {
         dispatch(userLogout());
     }
 
+    const handleHomeClick = (event) => {
+        // event.preventDefault();
+        setHome(true);
+        setFriends(false);
+        setWatch(false);
+        setShop(false);
+        setgroups(false);
+    }
+
+    const handleFriendsClick = (event) => {
+        // event.preventDefault();
+        setHome(false);
+        setFriends(true);
+        setWatch(false);
+        setShop(false);
+        setgroups(false);
+    }
+
+    const handleWatchClick = (event) => {
+        // event.preventDefault();
+        setHome(false);
+        setFriends(false);
+        setWatch(true);
+        setShop(false);
+        setgroups(false);
+    }
+
+    const handleShopClick = (event) => {
+        // event.preventDefault();
+        setHome(false);
+        setFriends(false);
+        setWatch(false);
+        setShop(true);
+        setgroups(false);
+    }
+
+    const handleGroupClick = (event) => {
+        // event.preventDefault();
+        setHome(false);
+        setFriends(false);
+        setWatch(false);
+        setShop(false);
+        setgroups(true);
+    }
+
+
   return (
     <div>
         
@@ -45,11 +96,11 @@ const HeaderOne = () => {
 
             <div className="w-[555px] mx-auto">
                 <ul className="flex items-center">
-                    <li><a className="iconMenuMiddle active" href="#"><AiOutlineHome className="h-[30px] w-[30px]"/></a></li>
-                    <li><a className="iconMenuMiddle" href="#"><HiOutlineUsers className="h-[30px] w-[30px]"/></a></li>
-                    <li><a className="iconMenuMiddle" href="#"><RiVideoLine className="h-[30px] w-[30px]"/></a></li>
-                    <li><a className="iconMenuMiddle" href="#"><HiOutlineUserGroup className="h-[30px] w-[30px]"/></a></li>
-                    <li><a className="iconMenuMiddle" href="#"><RiBankCardLine className="h-[30px] w-[30px]"/></a></li>
+                    <li><Link onClick={handleHomeClick} className={`iconMenuMiddle ${home ? "active" : ""}`} to={"/"}><AiOutlineHome className="h-[30px] w-[30px]"/></Link></li>
+                    <li><Link onClick={handleFriendsClick} className={`iconMenuMiddle ${friends ? "active" : ""}`} to={"/friends"}><HiOutlineUsers className="h-[30px] w-[30px]"/></Link></li>
+                    <li><Link onClick={handleWatchClick} className={`iconMenuMiddle ${watch ? "active" : ""}`} to={"/watch"}><RiVideoLine className="h-[30px] w-[30px]"/></Link></li>
+                    <li><Link onClick={handleShopClick} className={`iconMenuMiddle ${shop ? "active" : ""}`} to={"/watch"}><AiFillShop className="h-[30px] w-[30px]"/></Link></li>
+                    <li><Link onClick={handleGroupClick} className={`iconMenuMiddle ${groups ? "active" : ""}`} to={"/watch"}><RiGroup2Fill className="h-[30px] w-[30px]"/></Link></li>
                 </ul>
             </div>
             
@@ -65,7 +116,7 @@ const HeaderOne = () => {
 
                         {
                             userMenu && <ul ref={userDropdown} className="w-[330px] shadow-lg rounded-md border-t-[5px] border-[#D82E38] rounded-t-none bg-[#F3C0C3] p-3 absolute right-0 top-[53px]">
-                            <li><Link className="flex p-2 mb-3 items-center justify-start hover:bg-[#E4E6E8] rounded-l-md" to="/profile"><Avatar /> <h6 className="font-[600] ml-3 text-[#383838] text-[17px]">{user.firstName} {user.surName}</h6></Link></li>
+                            <li><Link className="flex p-2 mb-3 items-center justify-start hover:bg-[#e6838a] rounded-l-md" to="/profile"><Avatar /> <h6 className="font-[600] ml-3 text-[#383838] text-[17px]">{user.firstName} {user.surName}</h6></Link></li>
 
                             <li><a className="iconMenuleftList" href="#"><AiFillSetting className="listIcon h-[30px] w-[30px] text-[#2b2b2b]"/> <h6 className="listText">Setting & Privacy</h6></a></li>
                             <li><a className="iconMenuleftList" href="#"><MdLiveHelp className="listIcon2 h-[30px] w-[30px] text-[#2b2b2b]"/> <h6 className="listText">Support & Help</h6></a></li>

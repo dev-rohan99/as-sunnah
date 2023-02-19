@@ -863,4 +863,44 @@ export const userUpdateProfile = async (req, res, next) => {
 
 }
 
+/**
+ * user featured update
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
+
+export const userFeaturedUpdate = async (req, res, next) => {
+
+    try{
+
+        const {id} = req.params;
+        const featuredImage = [];
+
+        req.files.forEach(data => {
+            featuredImage.push(data.filename);
+        });
+
+        const {featured} = await userModel.findById(id);
+
+        const userUpdate = await userModel.findByIdAndUpdate(id, { featured : [...featured, featuredImage] }, { new : true });
+
+        if(userUpdate){
+            return res.status(200).json({
+                message : "Profile featured updated successfull!",
+                user : userUpdate
+            });
+        }
+        
+        if(!userUpdate){
+            return next(createError(400, "Profile update failed!"))
+        }
+
+    }catch(err){
+        return next(err);
+    }
+
+}
+
 

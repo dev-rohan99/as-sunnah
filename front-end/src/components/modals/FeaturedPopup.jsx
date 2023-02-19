@@ -8,6 +8,8 @@ const FeaturedPopup = ({setFeaturedPopup}) => {
     const [featuredAddShow, setFeaturedAddShow] = useState(true);
     const [featuredUpShow, setFeaturedUpShow] = useState(false);
     const [featuredUpload, setFeaturedUpload] = useState([]);
+    const [featuredPhotos, setFeaturedPhotos] = useState([]);
+
 
     const handleFeaturedPopupClose = (event) => {
         event.preventDefault();
@@ -27,14 +29,41 @@ const FeaturedPopup = ({setFeaturedPopup}) => {
     }
 
     const handleUploadImage = (event) => {
-        let previewImages = [];
-        for(let i = 0; i < event.target.files.length; i++){
-            const images = URL.createObjectURL(event.target.files[i]);
-            console.log(images);
-            previewImages.push(images);
-        }
-        setFeaturedUpload(previewImages);
+
+        // let previewImages = [];
+        // let profileFeaturedPhotos = [];
+        // for(let i = 0; i < event.target.files.length; i++){
+        //     const images = URL.createObjectURL(event.target.files[i]);
+        //     previewImages.push(images);
+        //     profileFeaturedPhotos.push(event.target.files[i]);
+        // }
+
+        setFeaturedUpload((prevState) => [...prevState, ...Array.from(event.target.files)]);
+        setFeaturedPhotos((prevState) => [...prevState, ...Array.from(event.target.files)]);
     }
+
+    const handleFeaturedInputChange = (event) => {
+        
+        const updatedPhotoList = [...featuredPhotos];
+        const validation = featuredPhotos.find((data) => event.target.value === data.name);
+
+        if(featuredPhotos.includes(validation)){
+            updatedPhotoList.splice(updatedPhotoList.indexOf(validation) ,1);
+        }else{
+            updatedPhotoList.push(validation);
+        }
+
+        setFeaturedPhotos(updatedPhotoList);
+
+    }
+
+
+    const handleFeaturedSubmit = (event) => {
+
+        event.preventDefault();
+
+    }
+
 
 
   return (
@@ -78,15 +107,27 @@ const FeaturedPopup = ({setFeaturedPopup}) => {
                                 <div className="h-[250px] overflow-auto scrollbar-hide px-5">
                                     <div className="mb-5">
                                         {/* <h3 className="text-[20px] mb-5 mt-5 font-bold">Uploaded image preview</h3> */}
-                                        <div className="grid grid-cols-6 gap-3">
+                                        <div className="grid grid-cols-6 gap-3 mt-3">
                                             {
-                                                featuredUpload.map((image, index) => 
-                                                
-                                                <div className="uploadPreviewFeatured">
-                                                    <img src={image} className="h-[100%] w-[100%] object-cover"/>
-                                                </div>
-                                                
-                                                )
+                                                featuredUpload.map((image, index) => {
+
+                                                    const prevURL = URL.createObjectURL(image);
+
+                                                    return <>
+                                                    
+                                                        <div className="uploadPreviewFeatured" key={`hgsgt${index}`}>
+                                                            <label htmlFor={`checkbox-${index}`}>
+                                                                <img src={prevURL} className="h-[100%] w-[100%] object-cover" alt='img'/>
+                                                            </label>
+                                                            <div className="absolute right-5 bottom-2 round">
+                                                                <input value={image.name} checked={featuredPhotos.includes(image)} type="checkbox" id={`checkbox-${index}`} onChange={handleFeaturedInputChange} />
+                                                                <label htmlFor={`checkbox-${index}`}></label>
+                                                            </div>
+                                                        </div>
+                                                    
+                                                    </>
+
+                                                })
                                             }
                                         </div>
                                     </div>
@@ -94,7 +135,7 @@ const FeaturedPopup = ({setFeaturedPopup}) => {
 
                                 <div className="flex justify-end px-5 border-t-[2px] border-[#ddd] pt-5">
                                     <a onClick={handleFeaturedPopupClose} href="/" className="px-4 py-2 font-semibold rounded-md text-[#fff] bg-[#444444]">Cancel</a>
-                                    <a href="/" className="px-5 py-2 font-semibold rounded-md text-[#fff] bg-[#D82E38] ml-3">Next</a>
+                                    <button onClick={handleFeaturedSubmit} disabled={featuredPhotos.length === 0} className="px-5 py-2 font-semibold rounded-md text-[#fff] bg-[#D82E38] disabled:opacity-50 ml-3">Create</button>
                                 </div>
 
                             </div>

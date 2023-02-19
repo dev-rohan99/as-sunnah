@@ -81,6 +81,11 @@ const userDataSchema = mongoose.Schema({
         default : null
     },
 
+    featured : {
+        type : Array,
+        default : []
+    },
+
     work : {
         type : Array,
         default : null

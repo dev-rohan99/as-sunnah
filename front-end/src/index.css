@@ -13,6 +13,10 @@ body{
 
 @layer components{
 
+  body{
+    @apply bg-[#F0F2F5]
+  }
+
   .container{
     @apply w-[990px] mx-auto
   } 
@@ -30,7 +34,11 @@ body{
   }
 
   .iconMenuleftList{
-    @apply flex p-2 items-center justify-start hover:bg-[#E4E6E8] rounded-l-md
+    @apply flex p-2 items-center justify-start hover:bg-[#e6838a] rounded-l-md
+  }
+
+  .iconMenuleftList2{
+    @apply flex p-2 px-3 items-center justify-start hover:bg-[#ddd] rounded-md
   }
 
   .listText{
@@ -54,7 +62,7 @@ body{
   }
 
   .uploadPreviewFeatured{
-    @apply w-[100px] h-[170px] bg-[#ffffff] items-center rounded-lg overflow-hidden relative shadow-md mr-2 last:mr-0 hover:scale-[1.005] transition duration-200 transform hover:animate-pulse ease-in cursor-pointer
+    @apply w-[100px] h-[170px] bg-[#ffffff] items-center rounded-lg overflow-hidden relative shadow-md mr-2 last:mr-0 transition duration-200 transform hover:animate-pulse ease-in cursor-pointer
   }
 
   .switch {
@@ -91,6 +99,22 @@ body{
 
   .barItem{
     @apply w-[0%] h-[4px] bg-[#fff]
+  }
+
+  .round input[type="checkbox"]{
+    @apply invisible
+  }
+
+  .round label{
+    @apply bg-transparent border-[2px] border-[#D82E38] rounded-full cursor-pointer h-[25px] w-[25px] absolute left-0 top-0 after:content-[""] after:border-[3px] after:border-[#fff] after:border-t-[0px] after:border-r-[0px] after:h-[7px] after:absolute after:left-[5.5px] after:top-[7px] after:w-[12px] after:rotate-[-45deg] after:opacity-0
+  }
+
+  .round input[type="checkbox"]:checked + label{
+    @apply bg-[#D82E38] border-[#D82E38]
+  }
+
+  .round input[type="checkbox"]:checked + label:after {
+    @apply opacity-[1]
   }
 
 }

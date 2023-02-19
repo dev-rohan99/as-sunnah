@@ -19,6 +19,8 @@ import { accessLoggedInUser } from "./redux/auth/action";
 import LoggedInUser from "./middlewares/LoggedInUser";
 import LoggedOutUser from "./middlewares/LoggedOutUser";
 import AboutProfile from "./pages/about-profile/AboutProfile";
+import Friends from "./pages/friends/Friends";
+import Watch from "./pages/watch/Watch";
 
 function App() {
 
@@ -59,6 +61,8 @@ function App() {
 
         <Route element={<LoggedInUser/>}>
           <Route path="/profile" element={<Profile />} />
+          <Route path="/friends" element={<Friends />} />
+          <Route path="/watch" element={<Watch />} />
           <Route path="/about-profile" element={<AboutProfile />} />
           <Route path="/find-account" element={<FindAccount />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
