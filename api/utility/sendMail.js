@@ -21,17 +21,17 @@ export const sendActivationLink = async (to, data) => {
 
         // send activation mail
         await transporter.sendMail({
-            from : `Facebook <${process.env.MAIL_ID}>`,
+            from : `asSunnah <${process.env.MAIL_ID}>`,
             subject : 'Account activation',
             to : to,
             html: `<div>
-                <h1 style="font-size:'55px'">Facebook</h1>
+                <h1 style="font-size:'55px'">asSunnah</h1>
                 <h3 style="font-size:'25px'">Hello ${data.name}</h3>
-                <h3 style="font-size:'25px'">You registered an account on Facebook, before being able to use your account you need to verify that this is your email address by clicking here : </h3>
+                <h3 style="font-size:'25px'">You registered an account on asSunnah, before being able to use your account you need to verify that this is your email address by clicking here : </h3>
                 <a style="font-size:'25px'" href="${data.link}">${data.link}</a>
                 <br>
                 <h2 style="font-size:'35px'">Or send code : ${data.code}</h2>
-                <h3 style="font-size:'25px'">Kind Regards, Facebook Team</h3>
+                <h3 style="font-size:'25px'">Kind Regards, asSunnah Team</h3>
             </div>`
         });
 
@@ -62,17 +62,17 @@ export const resetPasswordLink = async (to, data) => {
 
         // send activation mail
         await transporter.sendMail({
-            from : `Facebook <${process.env.MAIL_ID}>`,
+            from : `asSunnah <${process.env.MAIL_ID}>`,
             subject : 'Forgot Password',
             to : to,
             html: `<div>
-                <h1 style="font-size:'55px'">Facebook</h1>
+                <h1 style="font-size:'55px'">asSunnah</h1>
                 <h3 style="font-size:'25px'">Hello ${data.name}</h3>
-                <h3 style="font-size:'25px'">You forgot password an account on Facebook, before being able to use your account you need to verify that this is your email address by clicking here : </h3>
+                <h3 style="font-size:'25px'">You forgot password an account on asSunnah, before being able to use your account you need to verify that this is your email address by clicking here : </h3>
                 <a style="font-size:'25px'" href="${data.link}">${data.link}</a>
                 <br>
                 <h2 style="font-size:'35px'">Or send code : ${data.code}</h2>
-                <h3 style="font-size:'25px'">Kind Regards, Facebook Team</h3>
+                <h3 style="font-size:'25px'">Kind Regards, asSunnah Team</h3>
             </div>`
         });
 

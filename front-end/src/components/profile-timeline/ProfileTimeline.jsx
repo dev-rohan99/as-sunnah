@@ -2,11 +2,14 @@ import React from 'react';
 import { BiHappyAlt } from 'react-icons/bi';
 import { HiPhotograph } from 'react-icons/hi';
 import { RiLiveFill } from 'react-icons/ri';
+import { useSelector } from 'react-redux';
 import Avatar from '../avatar/Avatar';
 import PostItem from '../post-item/PostItem';
 
 
 const ProfileTimeline = () => {
+
+  const { user } = useSelector((state) => state.auth);
 
 
   return (
@@ -30,7 +33,7 @@ const ProfileTimeline = () => {
             </div>
         </div>
 
-        <PostItem postDesc={`Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit reiciendis ipsam repellendus voluptatibus quibusdam impedit, explicabo expedita? Ipsa ipsum iste consequatur animi itaque perferendis unde adipisci quod, esse, voluptate totam!`} postImage="https://upload.wikimedia.org/wikipedia/commons/7/79/The_Kaaba_during_Hajj.jpg"/>
+        <PostItem postDesc={`Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit reiciendis ipsam repellendus voluptatibus quibusdam impedit, explicabo expedita? Ipsa ipsum iste consequatur animi itaque perferendis unde adipisci quod, esse, voluptate totam!`} postImage="https://upload.wikimedia.org/wikipedia/commons/7/79/The_Kaaba_during_Hajj.jpg"  posterName={`${user.firstName} ${user.surName}`}/>
     
     </>
   )

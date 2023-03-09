@@ -1,12 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AiFillSetting } from 'react-icons/ai';
 import { FaHouseUser, FaUserPlus, FaUsers } from 'react-icons/fa';
 import { HiUsers } from 'react-icons/hi';
 import { RiUserSharedFill } from 'react-icons/ri';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import Friend from '../../components/friend/Friend';
 import HeaderOne from '../../components/header-one/HeaderOne';
+import { getAllUserData } from '../../redux/auth/action.js';
 
 
 const Friends = () => {
+
+    const dispatch = useDispatch();
+    const {user, users} = useSelector((state) => state.auth);
+
+    useEffect(() => {
+        dispatch(getAllUserData(user._id));
+    }, [dispatch]);
 
 
   return (
@@ -37,28 +48,26 @@ const Friends = () => {
 
                     <div className="pb-5 border-b-[3px] border-[#ddd]">
                         <div className="flex justify-between items-center">
-                            <h4 className="font-[600] text-[#383838] text-[21px] mb-3">Friend Requiest</h4>
+                            <h4 className="font-[600] text-[#383838] text-[21px] mb-3">Friend Request</h4>
 
                             <a className="px-4 py-1 ml-3 font-semibold text-[#ffffff] rounded-md bg-[#444444]" href="#">See all</a>
                         </div>
 
                         <div className="grid grid-cols-5 gap-3 mt-3">
                             
-                            <div className="w-[210px] rounded-md shadow-lg bg-[#fff] p-2">
-                                <img className="w-[100%] h-[200px] object-cover rounded-md" src="https://islamicanews.com/files/2017/09/in_noncharismaticimam.jpg" alt="friendImg" />
-                                <div className="">
-                                    <h4 className="font-[600] text-[#383838] text-[17px] mt-3">Abdullah</h4>
+                            {
+                                users.map((data, index) => {
 
-                                    <div className="flex justify-start items-center mt-1 mb-1">
-                                        <img className="w-[20px] h-[20px] border-[1px] border-[#fff] rounded-full object-cover" src="https://cdn-icons-png.flaticon.com/512/219/219988.png" alt="" />
-                                        <img className="w-[20px] h-[20px] border-[1px] border-[#fff] rounded-full object-cover ml-[-4px]" src="https://cdn-icons-png.flaticon.com/512/219/219988.png" alt="" />
-                                        <span className="font-normal text-[gray] text-[14px] ml-2">4 mutual friends</span>
-                                    </div>
+                                    if(user.friendsRequest.includes(data._id)){
+                                        return (
+                                            <Link to={""} key={index}>
+                                                <Friend user={data} buttonState={"friendrequest"} />
+                                            </Link>
+                                        )
+                                    }
 
-                                    <a href="/" className="px-5 w-[100%] block py-2 font-semibold rounded-md text-[#fff] bg-[#D82E38] text-center text-[15px] mt-2">Confirm</a>
-                                    <a href="/" className="px-5 w-[100%] block py-2 font-semibold rounded-md text-[#fff] bg-[#444444] text-center text-[15px] mt-2">Delete</a>
-                                </div>
-                            </div>
+                                })
+                            }
 
                         </div>
 
@@ -66,29 +75,27 @@ const Friends = () => {
                     </div>
 
                     <div className="mt-5">
-                        <div className="flex justify-between items-center">
+                        <div className="flex justify-between items-center mb-4">
                             <h4 className="font-[600] text-[#383838] text-[21px] mb-3">People you may know</h4>
 
-                            <a className="px-4 py-1 ml-3 font-semibold text-[#ffffff] rounded-md bg-[#444444]" href="#">See all</a>
+                            <a className="px-4 py-1 ml-3 font-semibold text-[#ffffff] rounded-md bg-[#444444]" href="/">See all</a>
                         </div>
 
                         <div className="grid grid-cols-5 gap-3 mt-3">
-                            
-                            <div className="w-[210px] rounded-md shadow-lg bg-[#fff] p-2">
-                                <img className="w-[100%] h-[200px] object-cover rounded-md" src="https://islamicanews.com/files/2017/09/in_noncharismaticimam.jpg" alt="friendImg" />
-                                <div className="">
-                                    <h4 className="font-[600] text-[#383838] text-[17px] mt-3">Abdullah</h4>
 
-                                    <div className="flex justify-start items-center mt-1 mb-1">
-                                        <img className="w-[20px] h-[20px] border-[1px] border-[#fff] rounded-full object-cover" src="https://cdn-icons-png.flaticon.com/512/219/219988.png" alt="" />
-                                        <img className="w-[20px] h-[20px] border-[1px] border-[#fff] rounded-full object-cover ml-[-4px]" src="https://cdn-icons-png.flaticon.com/512/219/219988.png" alt="" />
-                                        <span className="font-normal text-[gray] text-[14px] ml-2">4 mutual friends</span>
-                                    </div>
+                        {
+                            users.map((data, index) => {
 
-                                    <a href="/" className="px-5 w-[100%] block py-2 font-semibold rounded-md text-[#fff] bg-[#D82E38] text-center text-[15px] mt-2">Add Friend</a>
-                                    <a href="/" className="px-5 w-[100%] block py-2 font-semibold rounded-md text-[#fff] bg-[#444444] text-center text-[15px] mt-2">Delete</a>
-                                </div>
-                            </div>
+                                if(!user.friends.includes(data._id) && !user.friendsRequest.includes(data._id) && !user.following.includes(data._id)){
+                                    return (
+                                        <Link to={""} key={index}>
+                                            <Friend user={data} buttonState={"mayknow"} />
+                                        </Link>
+                                    )
+                                }
+
+                            })
+                        }
 
                         </div>
 

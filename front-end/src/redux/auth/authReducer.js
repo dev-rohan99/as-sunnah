@@ -1,4 +1,4 @@
-import { LOGGEDIN_USER_FAILED, LOGGEDIN_USER_REQUEST, LOGGEDIN_USER_SUCCESS, LOGIN_FAILED, LOGIN_REQUEST, LOGIN_SUCCESS, REGISTER_FAILED, REGISTER_REQUEST, REGISTER_SUCCESS, USER_LOGOUT, USER_PROFILE_UPDATE, } from "./actionType.js";
+import { GET_USERS_FAILED, GET_USERS_REQ, GET_USERS_SUCCESS, LOGGEDIN_USER_FAILED, LOGGEDIN_USER_REQUEST, LOGGEDIN_USER_SUCCESS, LOGIN_FAILED, LOGIN_REQUEST, LOGIN_SUCCESS, REGISTER_FAILED, REGISTER_REQUEST, REGISTER_SUCCESS, USER_LOGOUT, USER_PROFILE_PHOTO_UPDATE, USER_PROFILE_UPDATE, } from "./actionType.js";
 import initialState from "./initialState.js";
 
 
@@ -85,6 +85,35 @@ const authReducer = (state = initialState, {type, payload}) => {
                 loading : false,
                 loginState : true,
                 user : payload
+            };
+
+        case USER_PROFILE_PHOTO_UPDATE:
+            return {
+                ...state,
+                user : {
+                    ...state.user,
+                    ...payload
+                }
+            };
+
+        case GET_USERS_REQ:
+            return {
+                ...state,
+                loading : true
+            };
+
+        case GET_USERS_SUCCESS:
+            return {
+                ...state,
+                loading : false,
+                users : payload
+            };
+
+        case GET_USERS_FAILED:
+            return {
+                ...state,
+                loading : false,
+                users : []
             };
 
         default:

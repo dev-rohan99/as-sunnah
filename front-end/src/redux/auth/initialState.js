@@ -1,6 +1,7 @@
 
 const initialState = {
     user : null,
+    users : [],
     loading : false,
     loginState : false,
     message : null

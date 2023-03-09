@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import logo from "../../assets/images/logo3.png";
 import { AiFillHeart, AiFillSetting, AiOutlineLeft, AiOutlineRight, AiTwotoneLike } from 'react-icons/ai';
-import { BsFillEmojiAngryFill, BsFillEmojiLaughingFill, BsGrid3X3GapFill, BsThreeDots } from 'react-icons/bs';
+import { BsFillEmojiAngryFill, BsFillEmojiLaughingFill, BsGrid3X3GapFill } from 'react-icons/bs';
 import { MdCircleNotifications, MdDarkMode, MdFeedback, MdLiveHelp, MdMessage } from 'react-icons/md';
 import { RiEmotionSadFill, RiLogoutBoxRFill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';

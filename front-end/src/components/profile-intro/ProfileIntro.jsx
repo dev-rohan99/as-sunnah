@@ -8,6 +8,7 @@ import { userProfileUpdate } from '../../redux/auth/action';
 import FeaturedPopup from '../modals/FeaturedPopup';
 import FullScreenStoryPopup from '../modals/FullScreenStoryPopup';
 import ProfileDetailsModal from '../modals/ProfileDetailsModal';
+// import { MongoClient } from "MongoClient";
 
 
 const ProfileIntro = () => {
@@ -21,6 +22,13 @@ const ProfileIntro = () => {
     const [featured, setFeatured] = useState(false);
     const [featuredPopup, setFeaturedPopup] = useState(false);
     const dispatch = useDispatch();
+
+    // const client = new MongoClient("mongodb://localhost/facebook", {});
+    // client.connect();
+    // const db = client.db("facebook");
+    // const collection = db.collection('users');
+    // const result = collection.findOne({ id: user._id });
+    // console.log(result);
 
     const handleShowFeatured = () => {
         setFeatured(!featured);
@@ -118,10 +126,17 @@ const ProfileIntro = () => {
                 </ul>
 
                 <a href="/" onClick={handleDetailsModal} className="mb-[10px] mt-[15px] px-4 py-2 font-semibold text-[#ffffff] rounded-md bg-[#444444] flex justify-center items-center">Edit Details</a>
-                <a href="#" className="mb-[10px] mt-[15px] px-4 py-2 font-semibold text-[#ffffff] rounded-md bg-[#444444] flex justify-center items-center">Add Hobbies</a>
+                <a href="#" className="mb-[20px] mt-[15px] px-4 py-2 font-semibold text-[#ffffff] rounded-md bg-[#444444] flex justify-center items-center">Add Hobbies</a>
+                <div className="grid grid-cols-3 rounded-xl overflow-hidden gap-4">
+                    {
+                        user.featured.map((data, index) => 
 
-                <div onClick={handleShowFeatured} className="storyWrapper mt-4 cursor-pointer">
-                    <img src={"https://img.freepik.com/free-vector/arab-man-cartoon-character_1308-46539.jpg?w=360"} className="h-[100%] w-[100%] object-cover"/>
+                        <div onClick={handleShowFeatured} className="storyWrapper2 mt-1 cursor-pointer">
+                            <img src={`/featured-image/${data[0]}`} alt="" className="h-[100%] w-[100%] object-cover"/>
+                        </div>
+                        
+                        )
+                    }
                 </div>
 
                 <a onClick={handleFeaturedPopupShow} href="/" className="mb-[10px] mt-[15px] px-4 py-2 font-semibold text-[#ffffff] rounded-md bg-[#444444] flex justify-center items-center">Add Featured</a>

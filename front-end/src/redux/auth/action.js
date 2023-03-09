@@ -2,7 +2,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import createToast from "../../utility/toast.js";
 import { LOADER_START } from "../loader/loaderType.js";
-import { LOGGEDIN_USER_FAILED, LOGGEDIN_USER_REQUEST, LOGGEDIN_USER_SUCCESS, LOGIN_FAILED, LOGIN_REQUEST, LOGIN_SUCCESS, REGISTER_FAILED, REGISTER_REQUEST, REGISTER_SUCCESS, USER_LOGOUT, USER_PROFILE_UPDATE } from "./actionType.js";
+import { GET_USERS_FAILED, GET_USERS_REQ, GET_USERS_SUCCESS, LOGGEDIN_USER_FAILED, LOGGEDIN_USER_REQUEST, LOGGEDIN_USER_SUCCESS, LOGIN_FAILED, LOGIN_REQUEST, LOGIN_SUCCESS, REGISTER_FAILED, REGISTER_REQUEST, REGISTER_SUCCESS, USER_LOGOUT, USER_PROFILE_PHOTO_UPDATE, USER_PROFILE_UPDATE } from "./actionType.js";
 
 
 /**
@@ -194,7 +194,7 @@ export const userLogin = (data, navigate) => async (dispatch) => {
                 type : LOADER_START
             });
             createToast(res.data.message, "success");
-            navigate("/");
+            navigate(-1);
         }).catch(err => {
             dispatch({
                 type : LOGIN_FAILED
@@ -202,6 +202,9 @@ export const userLogin = (data, navigate) => async (dispatch) => {
             createToast(err.response.data.message, "error");
         });
     }catch(err){
+        dispatch({
+            type : LOGIN_FAILED
+        });
         createToast(err.response.data.message, "error")
     }
 
@@ -292,6 +295,152 @@ export const userProfileUpdate = (id, data, setShowBio) => async (dispatch) => {
         })
 
     }catch(err){
+        createToast(err.response.data.message, "error");
+    }
+
+}
+
+/**
+ * user profile photo update
+ * @param {*} id 
+ * @param {*} data 
+ * @param {*} setShowBio 
+ * @returns 
+ */
+
+export const userProfilePhotoUpdate = (id, data, setProfileEditorModal) => async (dispatch) => {
+    
+    try{
+
+        await axios.put(`/api/v1/user/profile-photo/${id}`, data).then((res) => {
+
+            dispatch({
+                type : USER_PROFILE_PHOTO_UPDATE,
+                payload : {
+                    avatar : res.data.filename
+                }
+            });
+            setProfileEditorModal(false);
+            console.log(res.data);
+            createToast("Profile photo updated!", "success");
+
+        }).catch((err) => {
+            createToast(err.response.data.message, "error");
+        })
+
+    }catch(err){
+        createToast(err.response.data.message, "error");
+    }
+
+}
+
+/**
+ * user featured photo update
+ * @param {*} id 
+ * @param {*} data 
+ * @param {*} setShowBio 
+ * @returns 
+ */
+
+export const userFeaturedPhotoUpdate = (id, data, setFeaturedPopup) => async (dispatch) => {
+
+    try{
+
+        await axios.put(`/api/v1/user/featured/${id}`, data).then((res) => {
+
+            dispatch({
+                type : USER_PROFILE_UPDATE,
+                payload : res.data.user
+            });
+            createToast("New featured photo added successfull!", "success");
+            setFeaturedPopup(false);
+
+        }).catch((err) => {
+            createToast(err.response.data.message, "error");
+        })
+
+    }catch(err){
+        createToast(err.response.data.message, "error");
+    }
+
+}
+
+/**
+ * get user all data
+ * @param {*} id 
+ * @param {*} data 
+ * @param {*} setShowBio 
+ * @returns 
+ */
+
+export const getAllUserData = (id) => async (dispatch) => {
+    
+    try{
+
+        dispatch({
+            type : GET_USERS_REQ
+        });
+
+        await axios.get(`/api/v1/user/users/${id}`).then((res) => {
+
+            dispatch({
+                type : GET_USERS_SUCCESS,
+                payload : res.data.users
+            });
+
+        }).catch((err) => {
+            dispatch({
+                type : GET_USERS_FAILED
+            });
+            createToast(err.response.data.message, "error");
+        })
+
+    }catch(err){
+        dispatch({
+            type : GET_USERS_FAILED
+        });
+        createToast(err.response.data.message, "error");
+    }
+
+}
+
+
+/**
+ * add friend request
+ * @param {*} id 
+ * @param {*} data 
+ * @param {*} setShowBio 
+ * @returns 
+ */
+
+export const friendRequstSenderAction = (requesterId, receiverId) => async (dispatch) => {
+    
+    try{
+
+        dispatch({
+            type : GET_USERS_REQ
+        });
+
+        await axios.get(`/api/v1/user/add-friend/${requesterId}/${receiverId}`).then((res) => {
+
+            dispatch({
+                type : GET_USERS_SUCCESS,
+                payload : res.data.users
+            });
+
+            
+
+        }).catch((err) => {
+            dispatch({
+                type : GET_USERS_FAILED
+            });
+            createToast(err.response.data.message, "error");
+        })
+
+    }catch(err){
+        dispatch({
+            type : GET_USERS_FAILED
+        });
         createToast(err.response.data.message, "error");
     }
 

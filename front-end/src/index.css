@@ -61,6 +61,10 @@ body{
     @apply w-[110px] h-[190px] bg-[#ffffff] items-center rounded-lg overflow-hidden relative shadow-md mr-2 last:mr-0 hover:scale-[1.01] transition duration-200 transform hover:animate-pulse ease-in cursor-pointer
   }
 
+  .storyWrapper2{
+    @apply w-[120px] h-[195px] bg-[#ffffff] items-center rounded-lg overflow-hidden relative shadow-md mr-2 last:mr-0 hover:scale-[1.01] transition duration-200 transform hover:animate-pulse ease-in cursor-pointer
+  }
+
   .uploadPreviewFeatured{
     @apply w-[100px] h-[170px] bg-[#ffffff] items-center rounded-lg overflow-hidden relative shadow-md mr-2 last:mr-0 transition duration-200 transform hover:animate-pulse ease-in cursor-pointer
   }
@@ -115,6 +119,10 @@ body{
 
   .round input[type="checkbox"]:checked + label:after {
     @apply opacity-[1]
+  }
+
+  .zoomBlock input::-webkit-slider-thumb{
+    @apply appearance-none w-[20px] h-[20px] rounded-md bg-[#D82E38]
   }
 
 }

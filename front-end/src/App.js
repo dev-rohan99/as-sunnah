@@ -64,12 +64,13 @@ function App() {
           <Route path="/friends" element={<Friends />} />
           <Route path="/watch" element={<Watch />} />
           <Route path="/about-profile" element={<AboutProfile />} />
-          <Route path="/find-account" element={<FindAccount />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/change-password" element={<ChangePassword />} />
         </Route>
 
+        <Route path="/find-account" element={<FindAccount />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/activation/:type" element={<Activation />} />
+        
       </Routes>
     </div>
   );

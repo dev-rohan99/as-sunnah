@@ -155,8 +155,8 @@ export const login = async (req, res, next) => {
                 return next(createError(400, 'All fields are required!'));
             }
     
-            if(!isEmail(phoneOrEmail)){
-                return next(400, 'Invalid email address!');
+            if(!isPhone(phoneOrEmail)){
+                return next(400, 'Invalid phone address!');
             }
     
             const loginUserForPhone = await userModel.findOne({phone : phoneOrEmail});
@@ -186,7 +186,7 @@ export const login = async (req, res, next) => {
         }
 
     }catch(err){
-        next(err);
+        return next(err);
     }
 
 }
@@ -876,7 +876,7 @@ export const userFeaturedUpdate = async (req, res, next) => {
     try{
 
         const {id} = req.params;
-        const featuredImage = [];
+        let featuredImage = [];
 
         req.files.forEach(data => {
             featuredImage.push(data.filename);
@@ -886,21 +886,130 @@ export const userFeaturedUpdate = async (req, res, next) => {
 
         const userUpdate = await userModel.findByIdAndUpdate(id, { featured : [...featured, featuredImage] }, { new : true });
 
+        
+        if(!userUpdate){
+            return next(createError(400, "Profile update failed!"));
+        }
+
         if(userUpdate){
             return res.status(200).json({
                 message : "Profile featured updated successfull!",
                 user : userUpdate
             });
         }
-        
-        if(!userUpdate){
-            return next(createError(400, "Profile update failed!"))
-        }
 
     }catch(err){
         return next(err);
     }
 
+}
+
+
+/**
+ * user profile photo update
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
+
+export const userProfilePhotoUpdate = async (req, res, next) => {
+    try{
+
+        const {id} = req.params;
+
+        const userUpdate = await userModel.findByIdAndUpdate(id, {avatar : req.file.filename}, { new : true });
+
+        
+        if(!userUpdate){
+            return next(createError(400, "Profile photo update failed!"));
+        }
+
+        if(userUpdate){
+            return res.status(200).json({
+                message : "Profile photo updated successfull!",
+                filename : req.file.filename
+            });
+        }
+
+    }catch(err){
+        return next(err);
+    }
+}
+
+/**
+ * get all user data
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
+
+export const getAllUser = async (req, res, next) => {
+    try{
+
+        const {id} = req.params;
+
+        const users = await userModel.find().select("-password").where("_id").ne(id);
+
+        
+        if(!users){
+            return next(createError(400, "Data not found!"));
+        }
+
+        if(users){
+            return res.status(200).json({
+                message : "All user data finded!",
+                users : users
+            });
+        }
+
+    }catch(err){
+        return next(err);
+    }
+}
+
+/**
+ * get all user data
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
+
+export const friendRequstSender = async (req, res, next) => {
+    try{
+
+        const {requester, receiver} = req.params;
+
+        const requesterUser = await userModel.findById(requester);
+        const receiverUser = await userModel.findById(receiver);
+
+        await requesterUser.updateOne({
+            $push : {
+                following : receiver
+            }
+        });
+
+        await receiverUser.updateOne({
+            $push : {
+                friendsRequest : requester
+            }
+        });
+
+        await receiverUser.updateOne({
+            $push : {
+                follower : requester
+            }
+        });
+
+        return res.status(200).json({
+            message : "Friend request sended!"
+        });
+
+    }catch(err){
+        return next(err);
+    }
 }
 
 

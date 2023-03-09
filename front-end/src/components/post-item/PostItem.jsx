@@ -2,8 +2,11 @@ import React from 'react';
 import { BsThreeDots } from "react-icons/bs";
 import { RxCross1 } from "react-icons/rx";
 import Avatar from '../avatar/Avatar';
+import { AiFillHeart, AiFillSetting, AiOutlineLeft, AiOutlineRight, AiTwotoneLike } from 'react-icons/ai';
+import { BsFillEmojiAngryFill, BsFillEmojiLaughingFill, BsGrid3X3GapFill } from 'react-icons/bs';
 
-const PostItem = ({postImage, postDesc}) => {
+
+const PostItem = ({postImage, postDesc, posterName}) => {
   return (
     <>
       
@@ -13,7 +16,7 @@ const PostItem = ({postImage, postDesc}) => {
           <div className="flex justify-start items-center">
             <Avatar/>
             <div className="w-[250px] flex flex-col">
-              <a href="/" className="ml-3 font-semibold text-[14px] text-[#2b2b2b]">Rohan Mostafa</a>
+              <a href="/" className="ml-3 font-semibold text-[14px] text-[#2b2b2b]">{posterName}</a>
               <a href="/" className="ml-3 font-normal text-[14px] mt-[-3px] text-[#2b2b2b]">1h ago</a>
             </div>
           </div>
@@ -32,6 +35,10 @@ const PostItem = ({postImage, postDesc}) => {
         <p className="mt-3 mb-3 text-[14px] text-[#2b2b2b]">{postDesc}</p>
 
         <img src={postImage} alt="" />
+
+        <div className="flex">
+          <a href="/" className="w-[140px] py-3 flex justify-center items-center"><AiTwotoneLike className="text-2xl"/></a>
+        </div>
       </div>
 
     </>

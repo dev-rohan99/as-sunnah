@@ -10,7 +10,7 @@ const Avatar = () => {
     <div>
         
         <img 
-        src={user.avatar ? user.avatar : 'https://cdn-icons-png.flaticon.com/512/219/219988.png' } 
+        src={user.avatar ? `/profile-photo/${user.avatar}` : 'https://cdn-icons-png.flaticon.com/512/219/219988.png' } 
         alt="user" 
         className="h-[40px] rounded-full w-[40px] object-cover"
         />
