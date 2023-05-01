@@ -2,6 +2,7 @@ import React from 'react';
 import { BiHappyAlt } from 'react-icons/bi';
 import { HiPhotograph } from 'react-icons/hi';
 import { RiLiveFill } from 'react-icons/ri';
+import { TiWarning } from 'react-icons/ti';
 import { useSelector } from 'react-redux';
 import Avatar from '../avatar/Avatar';
 import PostItem from '../post-item/PostItem';
@@ -34,6 +35,13 @@ const ProfileTimeline = () => {
         </div>
 
         <PostItem postDesc={`Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit reiciendis ipsam repellendus voluptatibus quibusdam impedit, explicabo expedita? Ipsa ipsum iste consequatur animi itaque perferendis unde adipisci quod, esse, voluptate totam!`} postImage="https://upload.wikimedia.org/wikipedia/commons/7/79/The_Kaaba_during_Hajj.jpg"  posterName={`${user.firstName} ${user.surName}`}/>
+
+        <div className="w-[555px] py-5 text-center mt-3">
+          <h1 className="text-[35px] w-[350px] mx-auto font-bold text-[#b5343c8b]">Sorry! You haven't made any posts yet!</h1>
+          <div className="flex justify-center mt-3">
+            <TiWarning className="text-[50px] text-[#D82E38]"/>
+          </div>
+        </div>
     
     </>
   )

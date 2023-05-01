@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { useState } from 'react';
 import { AiFillDelete, AiFillHeart } from 'react-icons/ai';
 import { BsFillPatchPlusFill, BsFillTelephoneFill, BsThreeDots } from 'react-icons/bs';
@@ -9,7 +9,7 @@ import { MdHomeWork, MdLocationOn, MdMarkEmailRead, MdWork } from 'react-icons/m
 import HeaderOne from '../../components/header-one/HeaderOne';
 import ProfileHeader from '../../components/profile-header/ProfileHeader';
 import { useDispatch, useSelector } from 'react-redux';
-import { userProfileUpdate } from '../../redux/auth/action';
+import { userProfileUpdate } from '../../redux/auth/action.js';
 import createToast from '../../utility/toast';
 
 const AboutProfile = () => {

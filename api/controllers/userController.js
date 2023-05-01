@@ -1,5 +1,4 @@
 import userModel from "../models/userModel.js";
-import bcrypt from "bcryptjs";
 import createError from "../utility/createError.js";
 import { isEmail, isPhone } from "../utility/validate.js";
 import { genHashPassword, verifyPassword } from "../utility/hash.js";
@@ -970,7 +969,7 @@ export const getAllUser = async (req, res, next) => {
 }
 
 /**
- * get all user data
+ * add friend request
  * @param {*} req 
  * @param {*} res 
  * @param {*} next 
@@ -1004,7 +1003,96 @@ export const friendRequstSender = async (req, res, next) => {
         });
 
         return res.status(200).json({
-            message : "Friend request sended!"
+            message : "Friend request sended!",
+            user : requesterUser
+        });
+
+    }catch(err){
+        return next(err);
+    }
+}
+
+/**
+ * confirm friend request
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
+
+export const confirmFriendRequst = async (req, res, next) => {
+    try{
+
+        const {receiver, requester} = req.params;
+
+        const receiverUser = await userModel.findById(receiver);
+        const requesterUser = await userModel.findById(requester);
+
+        await requesterUser.updateOne({
+            $push : {
+                friends : receiver
+            }
+        });
+
+        await receiverUser.updateOne({
+            $pull : {
+                friendsRequest : requester
+            }
+        });
+
+        await receiverUser.updateOne({
+            $push : {
+                friends : requester
+            }
+        });
+
+        return res.status(200).json({
+            message : "Friend request accepted!",
+            user : receiverUser
+        });
+
+    }catch(err){
+        return next(err);
+    }
+}
+
+/**
+ * cancel friend request
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
+
+export const cancelFriendRequst = async (req, res, next) => {
+    try{
+
+        const {receiver, requester} = req.params;
+
+        const receiverUser = await userModel.findById(receiver);
+        const requesterUser = await userModel.findById(requester);
+
+        await requesterUser.updateOne({
+            $pull : {
+                following : receiver
+            }
+        });
+
+        await receiverUser.updateOne({
+            $pull : {
+                friendsRequest : requester
+            }
+        });
+
+        await receiverUser.updateOne({
+            $pull : {
+                follower : requester
+            }
+        });
+
+        return res.status(200).json({
+            message : "Friend request canceled!",
+            user : receiverUser
         });
 
     }catch(err){

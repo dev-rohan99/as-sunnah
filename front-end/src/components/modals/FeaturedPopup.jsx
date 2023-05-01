@@ -62,7 +62,6 @@ const FeaturedPopup = ({setFeaturedPopup}) => {
 
     }
 
-
     const handleFeaturedSubmit = (event) => {
 
         event.preventDefault();
@@ -113,8 +112,11 @@ const FeaturedPopup = ({setFeaturedPopup}) => {
 
                                 <form onSubmit={handleFeaturedSubmit}>
                                     <div className="px-5 pb-2">
-                                        <label className="w-[100%] mt-[20px] px-4 py-2 font-semibold rounded-md text-[#D82E38] bg-[#d82e3957] flex justify-center items-center" htmlFor="featuredImgUp">Upload photos</label>
-                                        <input onChange={handleUploadImage} id="featuredImgUp" type="file" multiple hidden />
+                                        
+                                        <label className="w-[100%] mt-[20px] px-4 py-2 font-semibold rounded-md text-[#D82E38] bg-[#d82e3957] flex justify-center items-center" >
+                                            Upload photos
+                                            <input className="" onChange={handleUploadImage} type="file" multiple hidden/>
+                                        </label>
                                     </div>
                                 
                                     <div className="h-[250px] overflow-auto scrollbar-hide px-5">
@@ -125,7 +127,7 @@ const FeaturedPopup = ({setFeaturedPopup}) => {
                                                     featuredUpload.map((image, index) => {
 
                                                         const prevURL = URL.createObjectURL(image);
-
+                                                        
                                                         return (
                                                         
                                                         <>

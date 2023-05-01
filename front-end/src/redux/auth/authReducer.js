@@ -1,4 +1,4 @@
-import { GET_USERS_FAILED, GET_USERS_REQ, GET_USERS_SUCCESS, LOGGEDIN_USER_FAILED, LOGGEDIN_USER_REQUEST, LOGGEDIN_USER_SUCCESS, LOGIN_FAILED, LOGIN_REQUEST, LOGIN_SUCCESS, REGISTER_FAILED, REGISTER_REQUEST, REGISTER_SUCCESS, USER_LOGOUT, USER_PROFILE_PHOTO_UPDATE, USER_PROFILE_UPDATE, } from "./actionType.js";
+import { CANCEL_FRIEND_REQ_FAILED, CANCEL_FRIEND_REQ_REQ, CANCEL_FRIEND_REQ_SUCCESS, CONFIRM_FRIEND_REQ_FAILED, CONFIRM_FRIEND_REQ_REQ, CONFIRM_FRIEND_REQ_SUCCESS, FRIEND_REQ_FAILED, FRIEND_REQ_REQ, FRIEND_REQ_SUCCESS, GET_USERS_FAILED, GET_USERS_REQ, GET_USERS_SUCCESS, LOGGEDIN_USER_FAILED, LOGGEDIN_USER_REQUEST, LOGGEDIN_USER_SUCCESS, LOGIN_FAILED, LOGIN_REQUEST, LOGIN_SUCCESS, REGISTER_FAILED, REGISTER_REQUEST, REGISTER_SUCCESS, USER_LOGOUT, USER_PROFILE_PHOTO_UPDATE, USER_PROFILE_UPDATE, } from "./actionType.js";
 import initialState from "./initialState.js";
 
 
@@ -110,6 +110,66 @@ const authReducer = (state = initialState, {type, payload}) => {
             };
 
         case GET_USERS_FAILED:
+            return {
+                ...state,
+                loading : false,
+                users : []
+            };
+
+        case FRIEND_REQ_REQ:
+            return {
+                ...state,
+                loading : true
+            };
+
+        case FRIEND_REQ_SUCCESS:
+            return {
+                ...state,
+                loading : false,
+                user : payload
+            };
+
+        case FRIEND_REQ_FAILED:
+            return {
+                ...state,
+                loading : false,
+                users : []
+            };
+
+        case CONFIRM_FRIEND_REQ_REQ:
+            return {
+                ...state,
+                loading : true
+            };
+
+        case CONFIRM_FRIEND_REQ_SUCCESS:
+            return {
+                ...state,
+                loading : false,
+                user : payload
+            };
+
+        case CONFIRM_FRIEND_REQ_FAILED:
+            return {
+                ...state,
+                loading : false,
+                users : []
+            };
+
+        case CANCEL_FRIEND_REQ_REQ:
+            return {
+                ...state,
+                loading : true
+            };
+
+        case CANCEL_FRIEND_REQ_SUCCESS:
+            return {
+                ...state,
+                loading : false,
+                user : payload
+            };
+
+        case CANCEL_FRIEND_REQ_FAILED:
             return {
                 ...state,
                 loading : false,

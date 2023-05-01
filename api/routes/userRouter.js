@@ -1,6 +1,5 @@
 import express from 'express';
-import { loggedInUser, login, register, accountActivation, accountActivateByCode, forgotPassword, passwordResetAction, findUserAccount, resendAccountActivation, sendUserIdentificationOTP, checkPasswordResetOTP, passwordReset, userUpdateProfile, userFeaturedUpdate, userProfilePhotoUpdate, getAllUser, friendRequstSender } from '../controllers/userController.js';
-import { userAuthMiddleware } from '../middlewares/userAuthMiddleware.js';
+import { loggedInUser, login, register, accountActivation, accountActivateByCode, forgotPassword, passwordResetAction, findUserAccount, resendAccountActivation, sendUserIdentificationOTP, checkPasswordResetOTP, passwordReset, userUpdateProfile, userFeaturedUpdate, userProfilePhotoUpdate, getAllUser, friendRequstSender, confirmFriendRequst, cancelFriendRequst } from '../controllers/userController.js';
 import multer, { diskStorage } from 'multer';
 import path from "path";
 const router = express.Router();
@@ -21,6 +20,7 @@ const storage = diskStorage({
     }
 });
 
+
 const uploadFeaturedSlider = multer({ storage : storage }).array('featuredImage', 15);
 const uploadProfilePhoto = multer({ storage : storage }).single('profilePhoto');
 
@@ -35,6 +35,10 @@ router.get('/me', loggedInUser);
 router.get('/users/:id', getAllUser);
 // add friend request router
 router.get('/add-friend/:requester/:receiver', friendRequstSender);
+// cancel friend request router
+router.get('/cancel-friend-request/:requester/:receiver', cancelFriendRequst);
+// confirm friend reques request router
+router.get('/confirm-friend-request/:receiver/:requester', confirmFriendRequst);
 // user update profile
 router.put('/profile-update/:id', userUpdateProfile);
 // user account activation by email

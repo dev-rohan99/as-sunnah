@@ -2,7 +2,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import createToast from "../../utility/toast.js";
 import { LOADER_START } from "../loader/loaderType.js";
-import { GET_USERS_FAILED, GET_USERS_REQ, GET_USERS_SUCCESS, LOGGEDIN_USER_FAILED, LOGGEDIN_USER_REQUEST, LOGGEDIN_USER_SUCCESS, LOGIN_FAILED, LOGIN_REQUEST, LOGIN_SUCCESS, REGISTER_FAILED, REGISTER_REQUEST, REGISTER_SUCCESS, USER_LOGOUT, USER_PROFILE_PHOTO_UPDATE, USER_PROFILE_UPDATE } from "./actionType.js";
+import { CANCEL_FRIEND_REQ_FAILED, CANCEL_FRIEND_REQ_REQ, CANCEL_FRIEND_REQ_SUCCESS, CONFIRM_FRIEND_REQ_FAILED, CONFIRM_FRIEND_REQ_REQ, CONFIRM_FRIEND_REQ_SUCCESS, FRIEND_REQ_FAILED, FRIEND_REQ_REQ, FRIEND_REQ_SUCCESS, GET_USERS_FAILED, GET_USERS_REQ, GET_USERS_SUCCESS, LOGGEDIN_USER_FAILED, LOGGEDIN_USER_REQUEST, LOGGEDIN_USER_SUCCESS, LOGIN_FAILED, LOGIN_REQUEST, LOGIN_SUCCESS, REGISTER_FAILED, REGISTER_REQUEST, REGISTER_SUCCESS, USER_LOGOUT, USER_PROFILE_PHOTO_UPDATE, USER_PROFILE_UPDATE } from "./actionType.js";
 
 
 /**
@@ -80,7 +80,7 @@ export const userVerifyByCode = ({code, email}, navigate) => async (dispatch) =>
         }).then((res) => {
 
             createToast("Account activated!", "success");
-            Cookies.remove("otp")
+            Cookies.remove("otp");
             navigate('/login');
 
         }).catch(err => {
@@ -418,28 +418,112 @@ export const friendRequstSenderAction = (requesterId, receiverId) => async (disp
     try{
 
         dispatch({
-            type : GET_USERS_REQ
+            type : FRIEND_REQ_REQ
         });
 
         await axios.get(`/api/v1/user/add-friend/${requesterId}/${receiverId}`).then((res) => {
 
             dispatch({
-                type : GET_USERS_SUCCESS,
-                payload : res.data.users
+                type : FRIEND_REQ_SUCCESS,
+                payload : res.data.user
             });
-
+            
+            createToast("Friend request sended!", "success");
             
 
         }).catch((err) => {
             dispatch({
-                type : GET_USERS_FAILED
+                type : FRIEND_REQ_FAILED
             });
             createToast(err.response.data.message, "error");
         })
 
     }catch(err){
         dispatch({
-            type : GET_USERS_FAILED
+            type : FRIEND_REQ_FAILED
+        });
+        createToast(err.response.data.message, "error");
+    }
+
+}
+
+/**
+ * confirm friend request
+ * @param {*} id 
+ * @param {*} data 
+ * @param {*} setShowBio 
+ * @returns 
+ */
+
+export const confirmFriendRequstAction = (receiverId, requesterId) => async (dispatch) => {
+    
+    try{
+
+        dispatch({
+            type : CONFIRM_FRIEND_REQ_REQ
+        });
+
+        await axios.get(`/api/v1/user/confirm-friend-request/${receiverId}/${requesterId}`).then((res) => {
+
+            dispatch({
+                type : CONFIRM_FRIEND_REQ_SUCCESS,
+                payload : res.data.user
+            });
+
+            createToast("Friend request accepted!", "success");
+            
+
+        }).catch((err) => {
+            dispatch({
+                type : CONFIRM_FRIEND_REQ_FAILED
+            });
+            createToast(err.response.data.message, "error");
+        })
+
+    }catch(err){
+        dispatch({
+            type : CONFIRM_FRIEND_REQ_FAILED
+        });
+        createToast(err.response.data.message, "error");
+    }
+
+}
+
+/**
+ * cancel friend request
+ * @param {*} id 
+ * @param {*} data 
+ * @param {*} setShowBio 
+ * @returns 
+ */
+
+export const cancelFriendRequstAction = (requesterId, receiverId) => async (dispatch) => {
+    
+    try{
+
+        dispatch({
+            type : CANCEL_FRIEND_REQ_REQ
+        });
+
+        await axios.get(`/api/v1/user/cancel-friend-request/${requesterId}/${receiverId}`).then((res) => {
+
+            dispatch({
+                type : CANCEL_FRIEND_REQ_SUCCESS,
+                payload : res.data.user
+            });
+
+            createToast("Friend request canceled!", "success");
+
+        }).catch((err) => {
+            dispatch({
+                type : CANCEL_FRIEND_REQ_FAILED
+            });
+            createToast(err.response.data.message, "error");
+        })
+
+    }catch(err){
+        dispatch({
+            type : CANCEL_FRIEND_REQ_FAILED
         });
         createToast(err.response.data.message, "error");
     }

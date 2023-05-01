@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 
 // mongoDB Connection
 const mongoDBConnect = async () => {
+    mongoose.set('strictQuery', true);
     try{
         
         const connectDBLink = process.env.MONGO_CONNECTION_STR || 'mongodb://localhost/facebook';

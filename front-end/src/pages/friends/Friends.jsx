@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { AiFillSetting } from 'react-icons/ai';
-import { FaHouseUser, FaUserPlus, FaUsers } from 'react-icons/fa';
+import { FaHouseUser, FaUserPlus } from 'react-icons/fa';
 import { HiUsers } from 'react-icons/hi';
 import { RiUserSharedFill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
@@ -58,7 +58,7 @@ const Friends = () => {
                             {
                                 users.map((data, index) => {
 
-                                    if(user.friendsRequest.includes(data._id)){
+                                    if(user.friendsRequest.includes(data._id) && !user.friends.includes(data._id)){
                                         return (
                                             <Link to={""} key={index}>
                                                 <Friend user={data} buttonState={"friendrequest"} />

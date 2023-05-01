@@ -152,8 +152,8 @@ const ProfilePhotoModal = ({setProfilePhotoModal}) => {
 
                         <div className="flex justify-between px-5 pb-3 w-[100%]">
                             <div className="w-[43%]">
-                                <label className="w-[100%] mt-[20px] px-4 py-2 font-semibold rounded-md text-[#D82E38] bg-[#d82e3957] flex justify-center items-center" htmlFor="featuredImgUp">Upload photos</label>
-                                <input name="profilePhoto" onChange={handleClickUploadProfile} id="featuredImgUp" type="file" hidden />
+                                <label className="w-[100%] mt-[20px] px-4 py-2 font-semibold rounded-md text-[#D82E38] bg-[#d82e3957] flex justify-center items-center" htmlFor="profileImgUp">Upload photo</label>
+                                <input name="profilePhoto" onChange={handleClickUploadProfile} id="profileImgUp" type="file" hidden />
                             </div>
                             
                             <div className="w-[43%]">

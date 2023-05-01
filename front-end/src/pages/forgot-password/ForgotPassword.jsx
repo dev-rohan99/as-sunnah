@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import HeaderTwo from '../../components/header-two/HeaderTwo';
 import { hidePhoneOrEmail } from '../../utility/helper.js';
 import createToast from '../../utility/toast';

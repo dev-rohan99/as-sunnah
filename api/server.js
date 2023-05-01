@@ -35,7 +35,7 @@ app.use('/api/v1/user', userRouter);
 app.use(errorHandler);
 
 // running server
-const PORT = process.env.SERVER_PORT || 8080;
+const PORT = process.env.SERVER_PORT;
 
 app.listen(PORT, (err) => {
     if(err){
