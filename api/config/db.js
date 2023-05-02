@@ -5,7 +5,7 @@ const mongoDBConnect = async () => {
     mongoose.set('strictQuery', true);
     try{
         
-        const connectDBLink = process.env.MONGO_CONNECTION_STR || 'mongodb://localhost/facebook';
+        const connectDBLink = process.env.MONGO_CONNECTION_STR;
         await mongoose.connect(connectDBLink);
         console.log('Connected!'.bgWhite.black);
 
