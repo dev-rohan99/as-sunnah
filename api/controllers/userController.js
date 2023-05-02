@@ -90,8 +90,7 @@ export const register = async (req, res, next) => {
                 sameSite : "none",
                 secure: true,
                 domain: "as-sunnah.netlify.app",
-                httpOnly: true
-            }, {
+                httpOnly: true,
                 expires : new Date(Date.now() + 1000 * 60 * 60 * 72)
             }).json({
                 message : "User created successfull!",
@@ -384,9 +383,9 @@ export const findUserAccount = async (req, res, next) => {
                         sameSite : "none",
                         secure: true,
                         domain: "as-sunnah.netlify.app",
-                        httpOnly: true
-                    }, 
-                    {expires : new Date(Date.now() + 1000 * 60 * 60 * 72)}
+                        httpOnly: true,
+                        expires : new Date(Date.now() + 1000 * 60 * 60 * 72)
+                    }
                 ).json({
                     user : emailUser
                 });
@@ -410,9 +409,9 @@ export const findUserAccount = async (req, res, next) => {
                         sameSite : "none",
                         secure: true,
                         domain: "as-sunnah.netlify.app",
-                        httpOnly: true
-                    },
-                    {expires : new Date(Date.now() + 1000 * 60 * 60 * 72)}
+                        httpOnly: true,
+                        expires : new Date(Date.now() + 1000 * 60 * 60 * 72)
+                    }
                 ).json({
                     user : phoneUser
                 });
@@ -589,8 +588,7 @@ export const resendAccountActivation = async (req, res, next) => {
                     sameSite : "none",
                     secure: true,
                     domain: "as-sunnah.netlify.app",
-                    httpOnly: true
-                }, {
+                    httpOnly: true,
                     expires : new Date(Date.now() + 1000 * 60 * 60 * 72)
                 }).json({
                     message : "User activation link send to your account! Check your email."
@@ -632,8 +630,7 @@ export const resendAccountActivation = async (req, res, next) => {
                     sameSite : "none",
                     secure: true,
                     domain: "as-sunnah.netlify.app",
-                    httpOnly: true
-                }, {
+                    httpOnly: true,
                     expires : new Date(Date.now() + 1000 * 60 * 60 * 72)
                 }).json({
                     message : "User activation OTP send to your phone number! Check your message!"
