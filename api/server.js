@@ -19,7 +19,10 @@ dotenv.config();
 // middlewares implement
 app.use(express.json());
 app.use(express.urlencoded({ extended : false }));
-app.use(cors());
+app.use(cors({
+    origin : "https://as-sunnah.netlify.app",
+    credentials : true
+}));
 app.use(cookieParser());
 
 // mongoDB Connection

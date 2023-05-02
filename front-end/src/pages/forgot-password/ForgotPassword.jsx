@@ -76,8 +76,8 @@ const ForgotPassword = () => {
 
                         <div className="flex justify-center items-center mt-7">
                             <div className="mb-3">
-                                <a href="#" onClick={handleUserCancel} className="bg-[#d1d1d1] text-[16px] font-semibold text-[#1b1b1b] rounded-md py-3 px-4 active:bg-[#e0e0e0]">Not you?</a>
-                                <a onClick={handleUserForgotPassContinue} href="#" className="bg-[#D82E38] text-[16px] font-semibold ml-3 text-[#ffffff] rounded-md py-3 px-4 active:bg-[#ff6e78]">Continue</a>
+                                <a href="/" onClick={handleUserCancel} className="bg-[#d1d1d1] text-[16px] font-semibold text-[#1b1b1b] rounded-md py-3 px-4 active:bg-[#e0e0e0]">Not you?</a>
+                                <a onClick={handleUserForgotPassContinue} href="/" className="bg-[#D82E38] text-[16px] font-semibold ml-3 text-[#ffffff] rounded-md py-3 px-4 active:bg-[#ff6e78]">Continue</a>
                             </div>
                         </div>
                     </div>

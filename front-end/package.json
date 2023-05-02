@@ -50,5 +50,5 @@
   "devDependencies": {
     "tailwindcss": "^3.2.4"
   },
-  "proxy": "http://localhost:8080"
+  "proxy": "https://as-sunnah.onrender.com"
 }

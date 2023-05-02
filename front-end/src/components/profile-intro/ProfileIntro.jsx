@@ -110,23 +110,23 @@ const ProfileIntro = () => {
                         )
                     }
 
-                    <li className="flex justify-start items-center text-[14px] mt-3"><MdWork className="h-[25px] w-[25px] text-[gray] mr-2 mb-1"/> Studied at <a href="#" className="font-semibold hover:underline ml-1">Monoronjan Kapuria College</a></li>
+                    <li className="flex justify-start items-center text-[14px] mt-3"><MdWork className="h-[25px] w-[25px] text-[gray] mr-2 mb-1"/> Studied at <a href="/" className="font-semibold hover:underline ml-1">Monoronjan Kapuria College</a></li>
 
-                    <li className="flex justify-start items-center text-[14px] mt-3"><MdWork className="h-[25px] w-[25px] text-[gray] mr-2 mb-1"/> Went to <a href="#" className="font-semibold hover:underline ml-1">Chanchuri Purulia High School,Kalia,Narail.</a></li>
+                    <li className="flex justify-start items-center text-[14px] mt-3"><MdWork className="h-[25px] w-[25px] text-[gray] mr-2 mb-1"/> Went to <a href="/" className="font-semibold hover:underline ml-1">Chanchuri Purulia High School,Kalia,Narail.</a></li>
 
-                    <li className="flex justify-start items-center text-[14px] mt-3"><MdHomeWork className="h-[25px] w-[25px] text-[gray] mr-2 mb-1"/> Lives in <a href="#" className="font-semibold hover:underline ml-1">Narail, Dhaka, Bangladesh</a></li>
+                    <li className="flex justify-start items-center text-[14px] mt-3"><MdHomeWork className="h-[25px] w-[25px] text-[gray] mr-2 mb-1"/> Lives in <a href="/" className="font-semibold hover:underline ml-1">Narail, Dhaka, Bangladesh</a></li>
 
-                    <li className="flex justify-start items-center text-[14px] mt-3"><MdLocationOn className="h-[25px] w-[25px] text-[gray] mr-2 mb-1"/> From <a href="#" className="font-semibold hover:underline ml-1">Narail, Dhaka, Bangladesh</a></li>
+                    <li className="flex justify-start items-center text-[14px] mt-3"><MdLocationOn className="h-[25px] w-[25px] text-[gray] mr-2 mb-1"/> From <a href="/" className="font-semibold hover:underline ml-1">Narail, Dhaka, Bangladesh</a></li>
 
                     <li className="flex justify-start items-center text-[14px] mt-3"><AiFillHeart className="h-[25px] w-[25px] text-[gray] mr-2 mb-1"/> Single</li>
 
                     <li className="flex justify-start items-center text-[14px] mt-3"><RiTimeFill className="h-[25px] w-[25px] text-[gray] mr-2 mb-1"/> Joined on June 2019</li>
 
-                    <li className="flex justify-start items-center text-[14px] mt-3"><MdLocationOn className="h-[25px] w-[25px] text-[gray] mr-2 mb-1"/> Followed by <a href="#" className="font-semibold hover:underline ml-1">160 people</a></li>
+                    <li className="flex justify-start items-center text-[14px] mt-3"><MdLocationOn className="h-[25px] w-[25px] text-[gray] mr-2 mb-1"/> Followed by <a href="/" className="font-semibold hover:underline ml-1">160 people</a></li>
                 </ul>
 
                 <a href="/" onClick={handleDetailsModal} className="mb-[10px] mt-[15px] px-4 py-2 font-semibold text-[#ffffff] rounded-md bg-[#444444] flex justify-center items-center">Edit Details</a>
-                <a href="#" className="mb-[20px] mt-[15px] px-4 py-2 font-semibold text-[#ffffff] rounded-md bg-[#444444] flex justify-center items-center">Add Hobbies</a>
+                <a href="/" className="mb-[20px] mt-[15px] px-4 py-2 font-semibold text-[#ffffff] rounded-md bg-[#444444] flex justify-center items-center">Add Hobbies</a>
                 <div className="grid grid-cols-3 rounded-xl overflow-hidden gap-4">
                     {
                         user.featured.map((data, index) => 
@@ -149,7 +149,7 @@ const ProfileIntro = () => {
             <div className="mb-3 p-4 mt-3 bg-[#ffffff] shadow-md rounded-md">
                 <div className="flex justify-between items-center pb-4">
                     <h3 className="font-semibold text-[20px]">Photos</h3>
-                    <a className="px-4 py-1 ml-3 font-semibold text-[#ffffff] rounded-md bg-[#444444]" href="#">See all photos</a>
+                    <a className="px-4 py-1 ml-3 font-semibold text-[#ffffff] rounded-md bg-[#444444]" href="/">See all photos</a>
                 </div>
 
                 <div className="grid grid-cols-4 rounded-xl overflow-hidden gap-1">
@@ -169,7 +169,7 @@ const ProfileIntro = () => {
                         <h3 className="font-semibold text-[20px]">Friends</h3>
                         <h6 className="text-[gray] text-[14px] font-semibold">174 friends</h6>
                     </div>
-                    <a className="px-4 py-1 ml-3 font-semibold text-[#ffffff] rounded-md bg-[#444444]" href="#">See all friends</a>
+                    <a className="px-4 py-1 ml-3 font-semibold text-[#ffffff] rounded-md bg-[#444444]" href="/">See all friends</a>
                 </div>
 
                 <div className="grid grid-cols-3 gap-2">

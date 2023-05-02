@@ -27,10 +27,10 @@ const Watch = () => {
                     </div>
 
                     <ul className="mt-4">
-                        <li><a className="iconMenuleftList2" href="#"><BsFillCollectionPlayFill className="listIcon h-[25px] w-[25px] text-[#2b2b2b]"/> <h6 className="listText">Home</h6></a></li>
-                        <li><a className="iconMenuleftList2" href="#"><RiLiveFill className="listIcon h-[25px] w-[25px] text-[#2b2b2b]"/> <h6 className="listText">Live</h6></a></li>
-                        <li><a className="iconMenuleftList2" href="#"><FcClapperboard className="listIcon2 h-[25px] w-[25px] text-[#2b2b2b]"/> <h6 className="listText">Shows</h6></a></li>
-                        <li><a className="iconMenuleftList2" href="#"><BsFillBookmarkCheckFill className="listIcon h-[25px] w-[25px] text-[#2b2b2b]"/> <h6 className="listText">Saved Videos</h6></a></li>
+                        <li><a className="iconMenuleftList2" href="/"><BsFillCollectionPlayFill className="listIcon h-[25px] w-[25px] text-[#2b2b2b]"/> <h6 className="listText">Home</h6></a></li>
+                        <li><a className="iconMenuleftList2" href="/"><RiLiveFill className="listIcon h-[25px] w-[25px] text-[#2b2b2b]"/> <h6 className="listText">Live</h6></a></li>
+                        <li><a className="iconMenuleftList2" href="/"><FcClapperboard className="listIcon2 h-[25px] w-[25px] text-[#2b2b2b]"/> <h6 className="listText">Shows</h6></a></li>
+                        <li><a className="iconMenuleftList2" href="/"><BsFillBookmarkCheckFill className="listIcon h-[25px] w-[25px] text-[#2b2b2b]"/> <h6 className="listText">Saved Videos</h6></a></li>
                     </ul>
                 </div>
 

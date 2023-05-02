@@ -107,7 +107,7 @@ const ProfileDetailsModal = ({setDetailsModal}) => {
                         
                         <div className="flex justify-end items-center">
                             <a onClick={(e) => {e.preventDefault(); setDetailsModal(false);}} href="/" className="px-4 py-2 font-semibold text-[#ffffff] rounded-md bg-[#444444] flex justify-center items-center">Cancel</a>
-                            <a href="#" className="px-4 py-2 font-semibold text-[#ffffff] rounded-md ml-3 bg-[#D82E38] flex justify-center items-center">Save</a>
+                            <a href="/" className="px-4 py-2 font-semibold text-[#ffffff] rounded-md ml-3 bg-[#D82E38] flex justify-center items-center">Save</a>
                         </div>
                     </div>
 

@@ -37,10 +37,10 @@ const Friends = () => {
                     </div>
 
                     <ul className="mt-4">
-                        <li><a className="iconMenuleftList2" href="#"><HiUsers className="listIcon h-[25px] w-[25px] text-[#2b2b2b]"/> <h6 className="listText">Home</h6></a></li>
-                        <li><a className="iconMenuleftList2" href="#"><RiUserSharedFill className="listIcon h-[25px] w-[25px] text-[#2b2b2b]"/> <h6 className="listText">Friend Requiest</h6></a></li>
-                        <li><a className="iconMenuleftList2" href="#"><FaUserPlus className="listIcon2 h-[25px] w-[25px] text-[#2b2b2b]"/> <h6 className="listText">Suggestions</h6></a></li>
-                        <li><a className="iconMenuleftList2" href="#"><FaHouseUser className="listIcon h-[25px] w-[25px] text-[#2b2b2b]"/> <h6 className="listText">All Friends</h6></a></li>
+                        <li><a className="iconMenuleftList2" href="/"><HiUsers className="listIcon h-[25px] w-[25px] text-[#2b2b2b]"/> <h6 className="listText">Home</h6></a></li>
+                        <li><a className="iconMenuleftList2" href="/"><RiUserSharedFill className="listIcon h-[25px] w-[25px] text-[#2b2b2b]"/> <h6 className="listText">Friend Requiest</h6></a></li>
+                        <li><a className="iconMenuleftList2" href="/"><FaUserPlus className="listIcon2 h-[25px] w-[25px] text-[#2b2b2b]"/> <h6 className="listText">Suggestions</h6></a></li>
+                        <li><a className="iconMenuleftList2" href="/"><FaHouseUser className="listIcon h-[25px] w-[25px] text-[#2b2b2b]"/> <h6 className="listText">All Friends</h6></a></li>
                     </ul>
                 </div>
         
@@ -50,7 +50,7 @@ const Friends = () => {
                         <div className="flex justify-between items-center">
                             <h4 className="font-[600] text-[#383838] text-[21px] mb-3">Friend Request</h4>
 
-                            <a className="px-4 py-1 ml-3 font-semibold text-[#ffffff] rounded-md bg-[#444444]" href="#">See all</a>
+                            <a className="px-4 py-1 ml-3 font-semibold text-[#ffffff] rounded-md bg-[#444444]" href="/">See all</a>
                         </div>
 
                         <div className="grid grid-cols-5 gap-3 mt-3">

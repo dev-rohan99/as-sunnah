@@ -64,7 +64,7 @@ const LoginField = () => {
         </div>
 
         <div className="w-[396px]">
-          <p className="text-center mt-5"><a className="font-bold hover:underline" href="#">Create a Page</a> for a celebrity, brand or business.</p>
+          <p className="text-center mt-5"><a className="font-bold hover:underline" href="/">Create a Page</a> for a celebrity, brand or business.</p>
         </div>
 
         {register && <Register setRegister={() => setRegister(false)}/>}

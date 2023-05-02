@@ -98,9 +98,9 @@ const FullScreenStoryPopup = ({setFeatured}) => {
               
               <div className="w-[320px] flex items-center justify-end">
                   <ul className="flex items-center">
-                      <li><a className="iconMenuRight mr-2" href="#"><BsGrid3X3GapFill className="h-[20px] w-[20px]"/></a></li>
-                      <li><a className="iconMenuRight mr-2" href="#"><MdMessage className="h-[20px] w-[20px]"/></a></li>
-                      <li><a className="iconMenuRight mr-2" href="#"><MdCircleNotifications className="h-[20px] w-[20px]"/></a></li>
+                      <li><a className="iconMenuRight mr-2" href="/"><BsGrid3X3GapFill className="h-[20px] w-[20px]"/></a></li>
+                      <li><a className="iconMenuRight mr-2" href="/"><MdMessage className="h-[20px] w-[20px]"/></a></li>
+                      <li><a className="iconMenuRight mr-2" href="/"><MdCircleNotifications className="h-[20px] w-[20px]"/></a></li>
                       <li className="relative">
                           <a className="" href="/" onClick={handleUserMenu}>
                               <Avatar />
@@ -110,10 +110,10 @@ const FullScreenStoryPopup = ({setFeatured}) => {
                               userMenu && <ul ref={userDropdown} className="w-[330px] shadow-lg rounded-md border-t-[5px] border-[#D82E38] rounded-t-none bg-[#F3C0C3] p-3 absolute right-0 top-[53px]">
                               <li><Link className="flex p-2 mb-3 items-center justify-start hover:bg-[#E4E6E8] rounded-l-md" to="/profile"><Avatar /> <h6 className="font-[600] ml-3 text-[#383838] text-[17px]">{user.firstName} {user.surName}</h6></Link></li>
 
-                              <li><a className="iconMenuleftList" href="#"><AiFillSetting className="listIcon h-[30px] w-[30px] text-[#2b2b2b]"/> <h6 className="listText">Setting & Privacy</h6></a></li>
-                              <li><a className="iconMenuleftList" href="#"><MdLiveHelp className="listIcon2 h-[30px] w-[30px] text-[#2b2b2b]"/> <h6 className="listText">Support & Help</h6></a></li>
-                              <li><a className="iconMenuleftList" href="#"><MdDarkMode className="listIcon h-[30px] w-[30px] text-[#2b2b2b]"/> <h6 className="listText">Display</h6></a></li>
-                              <li><a className="iconMenuleftList" href="#"><MdFeedback className="listIcon2 h-[30px] w-[30px] text-[#2b2b2b]"/> <h6 className="listText">Feedback</h6></a></li>
+                              <li><a className="iconMenuleftList" href="/"><AiFillSetting className="listIcon h-[30px] w-[30px] text-[#2b2b2b]"/> <h6 className="listText">Setting & Privacy</h6></a></li>
+                              <li><a className="iconMenuleftList" href="/"><MdLiveHelp className="listIcon2 h-[30px] w-[30px] text-[#2b2b2b]"/> <h6 className="listText">Support & Help</h6></a></li>
+                              <li><a className="iconMenuleftList" href="/"><MdDarkMode className="listIcon h-[30px] w-[30px] text-[#2b2b2b]"/> <h6 className="listText">Display</h6></a></li>
+                              <li><a className="iconMenuleftList" href="/"><MdFeedback className="listIcon2 h-[30px] w-[30px] text-[#2b2b2b]"/> <h6 className="listText">Feedback</h6></a></li>
                               <li><a onClick={handleLogout} className="iconMenuleftList" href="/"><RiLogoutBoxRFill className="listIcon2 h-[30px] w-[30px] text-[#2b2b2b]"/> <h6 className="listText">Log out</h6></a></li>
                           </ul>
                           }

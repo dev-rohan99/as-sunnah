@@ -131,8 +131,8 @@ const ProfileHeader = () => {
                 </div>
 
                 <div className="w-[500px] z-30 flex items-center justify-end">
-                    <a href="#" className="mb-[10px] px-4 py-2 font-semibold text-[#ffffff] rounded-md bg-[#D82E38] flex justify-center items-center"><BsFillPlusSquareFill className="w-[15px] h-[15px] mr-2"/> Add Your Story</a>
-                    <a href="#" className="mb-[10px] px-4 py-2 ml-3 font-semibold text-[#ffffff] rounded-md bg-[#444444] flex justify-center items-center"><AiFillEdit className="w-[15px] h-[15px] mr-2"/> Edit Profile</a>
+                    <a href="/" className="mb-[10px] px-4 py-2 font-semibold text-[#ffffff] rounded-md bg-[#D82E38] flex justify-center items-center"><BsFillPlusSquareFill className="w-[15px] h-[15px] mr-2"/> Add Your Story</a>
+                    <a href="/" className="mb-[10px] px-4 py-2 ml-3 font-semibold text-[#ffffff] rounded-md bg-[#444444] flex justify-center items-center"><AiFillEdit className="w-[15px] h-[15px] mr-2"/> Edit Profile</a>
                 </div>
 
             </div>

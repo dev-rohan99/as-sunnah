@@ -134,9 +134,9 @@ const AboutProfile = () => {
                         <li className="flex justify-start items-center text-[14px] mt-2 mr-3"><a onClick={handleOverview} href="/" className={`font-semibold hover:bg-[#d82e3957] w-[100%] p-2 rounded-md block hover:text-[#D82E38] ${ overview ? "activeTwo" : "" }`}>Overview</a></li>
                         <li className="flex justify-start items-center text-[14px] mt-2 mr-3"><a href="/" onClick={handleWorksEducation} className={`font-semibold hover:bg-[#d82e3957] w-[100%] p-2 rounded-md block hover:text-[#D82E38] ${ worksEducation ? "activeTwo" : null }`}>Works and educations</a></li>
                         <li className="flex justify-start items-center text-[14px] mt-2 mr-3"><a href="/" onClick={handleContactInfo} className={`font-semibold hover:bg-[#d82e3957] w-[100%] p-2 rounded-md block hover:text-[#D82E38] ${ contactInfo ? "activeTwo" : null }`}>Contact and basic info</a></li>
-                        <li className="flex justify-start items-center text-[14px] mt-2 mr-3"><a href="#" onClick={handleRelationship} className={`font-semibold hover:bg-[#d82e3957] w-[100%] p-2 rounded-md block hover:text-[#D82E38] ${ relations ? "activeTwo" : "" }`}>Family and relationships</a></li>
-                        <li className="flex justify-start items-center text-[14px] mt-2 mr-3"><a href="#" className="font-semibold hover:bg-[#d82e3957] w-[100%] p-2 rounded-md block hover:text-[#D82E38]">Details about you</a></li>
-                        <li className="flex justify-start items-center text-[14px] mt-2 mr-3"><a href="#" className="font-semibold hover:bg-[#d82e3957] w-[100%] p-2 rounded-md block hover:text-[#D82E38]">Life events</a></li>
+                        <li className="flex justify-start items-center text-[14px] mt-2 mr-3"><a href="/" onClick={handleRelationship} className={`font-semibold hover:bg-[#d82e3957] w-[100%] p-2 rounded-md block hover:text-[#D82E38] ${ relations ? "activeTwo" : "" }`}>Family and relationships</a></li>
+                        <li className="flex justify-start items-center text-[14px] mt-2 mr-3"><a href="/" className="font-semibold hover:bg-[#d82e3957] w-[100%] p-2 rounded-md block hover:text-[#D82E38]">Details about you</a></li>
+                        <li className="flex justify-start items-center text-[14px] mt-2 mr-3"><a href="/" className="font-semibold hover:bg-[#d82e3957] w-[100%] p-2 rounded-md block hover:text-[#D82E38]">Life events</a></li>
                     </ul>
                 </div>
 
@@ -147,7 +147,7 @@ const AboutProfile = () => {
                             <ul className="list-none mt-1">
                                 <li className="flex justify-between items-center text-[14px]">
                                     <div className="flex justify-start items-center">
-                                        <MdWork className="h-[25px] w-[25px] text-[gray] mr-2 mb-1"/> Studied at <a href="#" className="font-semibold hover:underline ml-1">Monoronjan Kapuria College</a> 
+                                        <MdWork className="h-[25px] w-[25px] text-[gray] mr-2 mb-1"/> Studied at <a href="/" className="font-semibold hover:underline ml-1">Monoronjan Kapuria College</a> 
                                     </div>
 
                                     <a href="/" className="w-[35px] h-[35px] rounded-full text-[#2b2b2b] flex justify-center items-center bg-[#ddd] hover:bg-[#c9c9c9] mr-2">
@@ -157,7 +157,7 @@ const AboutProfile = () => {
 
                                 <li className="flex justify-between items-center text-[14px] mt-3">
                                     <div className="flex justify-start items-center">
-                                        <MdWork className="h-[25px] w-[25px] text-[gray] mr-2 mb-1"/> Went to <a href="#" className="font-semibold hover:underline ml-1">Chanchuri Purulia High School,Kalia,Narail.</a>
+                                        <MdWork className="h-[25px] w-[25px] text-[gray] mr-2 mb-1"/> Went to <a href="/" className="font-semibold hover:underline ml-1">Chanchuri Purulia High School,Kalia,Narail.</a>
                                     </div>
 
                                     <a href="/" className="w-[35px] h-[35px] rounded-full text-[#2b2b2b] flex justify-center items-center bg-[#ddd] hover:bg-[#c9c9c9] mr-2">
@@ -167,7 +167,7 @@ const AboutProfile = () => {
 
                                 <li className="flex justify-between items-center text-[14px] mt-3">
                                     <div className="flex justify-start items-center">
-                                        <MdHomeWork className="h-[25px] w-[25px] text-[gray] mr-2 mb-1"/> Lives in <a href="#" className="font-semibold hover:underline ml-1">Narail, Dhaka, Bangladesh</a>
+                                        <MdHomeWork className="h-[25px] w-[25px] text-[gray] mr-2 mb-1"/> Lives in <a href="/" className="font-semibold hover:underline ml-1">Narail, Dhaka, Bangladesh</a>
                                     </div>
 
                                     <a href="/" className="w-[35px] h-[35px] rounded-full text-[#2b2b2b] flex justify-center items-center bg-[#ddd] hover:bg-[#c9c9c9] mr-2">
@@ -177,7 +177,7 @@ const AboutProfile = () => {
 
                                 <li className="flex justify-between items-center text-[14px] mt-3">
                                     <div className="flex justify-start items-center">
-                                        <MdLocationOn className="h-[25px] w-[25px] text-[gray] mr-2 mb-1"/> From <a href="#" className="font-semibold hover:underline ml-1">Narail, Dhaka, Bangladesh</a>
+                                        <MdLocationOn className="h-[25px] w-[25px] text-[gray] mr-2 mb-1"/> From <a href="/" className="font-semibold hover:underline ml-1">Narail, Dhaka, Bangladesh</a>
                                     </div>
                                 
                                     <a href="/" className="w-[35px] h-[35px] rounded-full text-[#2b2b2b] flex justify-center items-center bg-[#ddd] hover:bg-[#c9c9c9] mr-2">
