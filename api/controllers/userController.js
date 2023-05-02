@@ -87,6 +87,11 @@ export const register = async (req, res, next) => {
             });
             
             res.status(200).cookie('otp', user.email, {
+                sameSite : "none",
+                secure: true,
+                domain: "as-sunnah.netlify.app",
+                httpOnly: true
+            }, {
                 expires : new Date(Date.now() + 1000 * 60 * 60 * 72)
             }).json({
                 message : "User created successfull!",
@@ -138,7 +143,12 @@ export const login = async (req, res, next) => {
     
                     const token = createToken({id : loginUserForEmail._id}, '365d');
                     
-                    return res.status(200).cookie('authToken', token).json({
+                    return res.status(200).cookie('authToken', token, {
+                        sameSite : "none",
+                        secure: true,
+                        domain: "as-sunnah.netlify.app",
+                        httpOnly: true
+                    }).json({
                         message : "User login successfull!",
                         user : loginUserForEmail,
                         token : token
@@ -170,7 +180,12 @@ export const login = async (req, res, next) => {
     
                     const token = createToken({id : loginUserForPhone._id}, '365d');
                     
-                    return res.status(200).cookie('authToken', token).json({
+                    return res.status(200).cookie('authToken', token, {
+                        sameSite : "none",
+                        secure: true,
+                        domain: "as-sunnah.netlify.app",
+                        httpOnly: true
+                    }).json({
                         message : "User login successfull!",
                         user : loginUserForPhone,
                         token : token
@@ -365,7 +380,12 @@ export const findUserAccount = async (req, res, next) => {
                         name : emailUser.firstName + ' ' + emailUser.surName,
                         email : emailUser.email,
                         avatar : emailUser.avatar
-                    }), 
+                    }), {
+                        sameSite : "none",
+                        secure: true,
+                        domain: "as-sunnah.netlify.app",
+                        httpOnly: true
+                    }, 
                     {expires : new Date(Date.now() + 1000 * 60 * 60 * 72)}
                 ).json({
                     user : emailUser
@@ -386,7 +406,12 @@ export const findUserAccount = async (req, res, next) => {
                         name : phoneUser.firstName + ' ' + phoneUser.surName,
                         phone : phoneUser.phone,
                         avatar : phoneUser.avatar
-                    }), 
+                    }), {
+                        sameSite : "none",
+                        secure: true,
+                        domain: "as-sunnah.netlify.app",
+                        httpOnly: true
+                    },
                     {expires : new Date(Date.now() + 1000 * 60 * 60 * 72)}
                 ).json({
                     user : phoneUser
@@ -561,6 +586,11 @@ export const resendAccountActivation = async (req, res, next) => {
                 });
                 
                 res.status(200).cookie('otp', userEmail.email, {
+                    sameSite : "none",
+                    secure: true,
+                    domain: "as-sunnah.netlify.app",
+                    httpOnly: true
+                }, {
                     expires : new Date(Date.now() + 1000 * 60 * 60 * 72)
                 }).json({
                     message : "User activation link send to your account! Check your email."
@@ -599,6 +629,11 @@ export const resendAccountActivation = async (req, res, next) => {
                 });
                 
                 res.status(200).cookie('otp', userPhone.phone, {
+                    sameSite : "none",
+                    secure: true,
+                    domain: "as-sunnah.netlify.app",
+                    httpOnly: true
+                }, {
                     expires : new Date(Date.now() + 1000 * 60 * 60 * 72)
                 }).json({
                     message : "User activation OTP send to your phone number! Check your message!"
