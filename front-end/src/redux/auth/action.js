@@ -23,7 +23,7 @@ export const userRegister = (data, setRegister, setInput, event, navigate) => as
             type : REGISTER_REQUEST
         });
 
-        await axios.post("/api/v1/user/register", data).then((res) => {
+        await axios.post("https://as-sunnah.onrender.com/api/v1/user/register", data).then((res) => {
 
             dispatch({
                 type : REGISTER_SUCCESS,
@@ -74,7 +74,7 @@ export const userVerifyByCode = ({code, email}, navigate) => async (dispatch) =>
 
     try{
 
-        await axios.post('/api/v1/user/code-activate', {
+        await axios.post('https://as-sunnah.onrender.com/api/v1/user/code-activate', {
             code : code,
             email : email
         }).then((res) => {
@@ -103,7 +103,7 @@ export const userVerifyByCode = ({code, email}, navigate) => async (dispatch) =>
 export const resendActivation = (emailOrPhone, navigate) => async (dispatch) => {
 
     try{
-        await axios.post("/api/v1/user/resend-activation", {emailOrPhone}).then(res => {
+        await axios.post("https://as-sunnah.onrender.com/api/v1/user/resend-activation", {emailOrPhone}).then(res => {
             createToast(res.data.message, "success");
             navigate("/activation/account-activation");
         }).catch(err => {
@@ -125,7 +125,7 @@ export const resendActivation = (emailOrPhone, navigate) => async (dispatch) => 
 export const checkPasswordResetOTPAction = (data, navigate) => async (dispatch) => {
 
     try{
-        await axios.post("/api/v1/user/check-password-reset-otp", {
+        await axios.post("https://as-sunnah.onrender.com/api/v1/user/check-password-reset-otp", {
             phoneOrEmail : data.phoneOrEmail,
             code : data.code
         }).then(res => {
@@ -151,7 +151,7 @@ export const checkPasswordResetOTPAction = (data, navigate) => async (dispatch) 
 export const changePassword = (data, navigate) => async (dispatch) => {
 
     try{
-        await axios.post("/api/v1/user/password-reset", {
+        await axios.post("https://as-sunnah.onrender.com/api/v1/user/password-reset", {
             id : data.id,
             code : data.code,
             password : data.password
@@ -182,7 +182,7 @@ export const userLogin = (data, navigate) => async (dispatch) => {
             type : LOGIN_REQUEST
         });
 
-        await axios.post("/api/v1/user/login", {
+        await axios.post("https://as-sunnah.onrender.com/api/v1/user/login", {
             phoneOrEmail : data.phoneOrEmail,
             password : data.password
         }).then(res => {
@@ -225,7 +225,7 @@ export const accessLoggedInUser = (token) => async (dispatch) => {
             type : LOGGEDIN_USER_REQUEST
         });
 
-        await axios.get("/api/v1/user/me", {
+        await axios.get("https://as-sunnah.onrender.com/api/v1/user/me", {
             headers : {
                 Authorization : `Bearer ${token}`
             },
@@ -282,7 +282,7 @@ export const userProfileUpdate = (id, data, setShowBio) => async (dispatch) => {
 
     try{
 
-        await axios.put(`/api/v1/user/profile-update/${id}`, data).then((res) => {
+        await axios.put(`https://as-sunnah.onrender.com/api/v1/user/profile-update/${id}`, data).then((res) => {
 
             dispatch({
                 type : USER_PROFILE_UPDATE,
@@ -312,7 +312,7 @@ export const userProfilePhotoUpdate = (id, data, setProfileEditorModal) => async
     
     try{
 
-        await axios.put(`/api/v1/user/profile-photo/${id}`, data).then((res) => {
+        await axios.put(`https://as-sunnah.onrender.com/api/v1/user/profile-photo/${id}`, data).then((res) => {
 
             dispatch({
                 type : USER_PROFILE_PHOTO_UPDATE,
@@ -346,7 +346,7 @@ export const userFeaturedPhotoUpdate = (id, data, setFeaturedPopup) => async (di
 
     try{
 
-        await axios.put(`/api/v1/user/featured/${id}`, data).then((res) => {
+        await axios.put(`https://as-sunnah.onrender.com/api/v1/user/featured/${id}`, data).then((res) => {
 
             dispatch({
                 type : USER_PROFILE_UPDATE,
@@ -381,7 +381,7 @@ export const getAllUserData = (id) => async (dispatch) => {
             type : GET_USERS_REQ
         });
 
-        await axios.get(`/api/v1/user/users/${id}`).then((res) => {
+        await axios.get(`https://as-sunnah.onrender.com/api/v1/user/users/${id}`).then((res) => {
 
             dispatch({
                 type : GET_USERS_SUCCESS,
@@ -421,7 +421,7 @@ export const friendRequstSenderAction = (requesterId, receiverId) => async (disp
             type : FRIEND_REQ_REQ
         });
 
-        await axios.get(`/api/v1/user/add-friend/${requesterId}/${receiverId}`).then((res) => {
+        await axios.get(`https://as-sunnah.onrender.com/api/v1/user/add-friend/${requesterId}/${receiverId}`).then((res) => {
 
             dispatch({
                 type : FRIEND_REQ_SUCCESS,
@@ -463,7 +463,7 @@ export const confirmFriendRequstAction = (receiverId, requesterId) => async (dis
             type : CONFIRM_FRIEND_REQ_REQ
         });
 
-        await axios.get(`/api/v1/user/confirm-friend-request/${receiverId}/${requesterId}`).then((res) => {
+        await axios.get(`https://as-sunnah.onrender.com/api/v1/user/confirm-friend-request/${receiverId}/${requesterId}`).then((res) => {
 
             dispatch({
                 type : CONFIRM_FRIEND_REQ_SUCCESS,
@@ -505,7 +505,7 @@ export const cancelFriendRequstAction = (requesterId, receiverId) => async (disp
             type : CANCEL_FRIEND_REQ_REQ
         });
 
-        await axios.get(`/api/v1/user/cancel-friend-request/${requesterId}/${receiverId}`).then((res) => {
+        await axios.get(`https://as-sunnah.onrender.com/api/v1/user/cancel-friend-request/${requesterId}/${receiverId}`).then((res) => {
 
             dispatch({
                 type : CANCEL_FRIEND_REQ_SUCCESS,
