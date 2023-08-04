@@ -51,8 +51,7 @@ const authReducer = (state = initialState, {type, payload}) => {
         case LOGGEDIN_USER_REQUEST:
             return {
                 ...state,
-                loading : true,
-                loginState : true
+                loading : true
             };
 
         case LOGGEDIN_USER_SUCCESS:
