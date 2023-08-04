@@ -20,7 +20,7 @@ dotenv.config();
 app.use(express.json());
 app.use(express.urlencoded({ extended : false }));
 app.use(cors({
-    origin : "http://localhost:3000",
+    origin : "https://as-sunnah.netlify.app",
     credentials : true
 }));
 app.use(cookieParser({ secure: false }));
