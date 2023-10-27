@@ -30,7 +30,7 @@ mongoDBConnect();
 
 // static folder
 app.use('/', express.static(path.join(__dirname, '/api/public')));
-app.use('/', express.static('/front-end/build'));
+app.use('/', express.static('/build'));
 
 // routes implement
 app.use('/api/v1/user', userRouter);
