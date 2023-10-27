@@ -29,7 +29,8 @@ app.use(cookieParser({ secure: false }));
 mongoDBConnect();
 
 // static folder
-app.use('/', express.static(path.join(__dirname, '/api/public')))
+app.use('/', express.static(path.join(__dirname, '/api/public')));
+app.use('/', express.static('dist'));
 
 // routes implement
 app.use('/api/v1/user', userRouter);
