@@ -30,13 +30,20 @@ mongoDBConnect();
 
 // static folder
 app.use('/', express.static(path.join(__dirname, '/api/public')));
-app.use('/', express.static('/build'));
 
 // routes implement
 app.use('/api/v1/user', userRouter);
 
 // error handler
 app.use(errorHandler);
+
+if (process.env.NODE_ENV === 'PRODUCTION'){
+    app.use(express.static(path.join(__dirname, '/front-end/build')));
+  
+    app.get('*', (req, res) =>
+      res.sendFile(path.join(__dirname, 'front-end', 'build', 'index.html'))
+    );
+}
 
 // running server
 const PORT = process.env.SERVER_PORT;
