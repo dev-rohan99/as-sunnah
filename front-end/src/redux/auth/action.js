@@ -23,7 +23,9 @@ export const userRegister = (data, setRegister, setInput, event, navigate) => as
             type : REGISTER_REQUEST
         });
 
-        await axios.post("http://localhost:8080/api/v1/user/register", data).then((res) => {
+        await axios.post("http://localhost:8080/api/v1/user/register", data, {
+            withCredentials: true
+        }).then((res) => {
 
             dispatch({
                 type : REGISTER_SUCCESS,
@@ -77,6 +79,8 @@ export const userVerifyByCode = ({code, email}, navigate) => async (dispatch) =>
         await axios.post('http://localhost:8080/api/v1/user/code-activate', {
             code : code,
             email : email
+        }, {
+            withCredentials: true
         }).then((res) => {
 
             createToast("Account activated!", "success");
@@ -103,7 +107,9 @@ export const userVerifyByCode = ({code, email}, navigate) => async (dispatch) =>
 export const resendActivation = (emailOrPhone, navigate) => async (dispatch) => {
 
     try{
-        await axios.post("http://localhost:8080/api/v1/user/resend-activation", {emailOrPhone}).then(res => {
+        await axios.post("http://localhost:8080/api/v1/user/resend-activation", {emailOrPhone}, {
+            withCredentials: true
+        }).then(res => {
             createToast(res.data.message, "success");
             navigate("/activation/account-activation");
         }).catch(err => {
@@ -128,6 +134,8 @@ export const checkPasswordResetOTPAction = (data, navigate) => async (dispatch) 
         await axios.post("http://localhost:8080/api/v1/user/check-password-reset-otp", {
             phoneOrEmail : data.phoneOrEmail,
             code : data.code
+        }, {
+            withCredentials: true
         }).then(res => {
             createToast(res.data.message, "success");
             navigate("/change-password");
@@ -155,6 +163,8 @@ export const changePassword = (data, navigate) => async (dispatch) => {
             id : data.id,
             code : data.code,
             password : data.password
+        }, {
+            withCredentials: true
         }).then(res => {
             createToast(res.data.message, "success");
             navigate("/login");
@@ -185,6 +195,8 @@ export const userLogin = (data, navigate) => async (dispatch) => {
         await axios.post("http://localhost:8080/api/v1/user/login", {
             phoneOrEmail : data.phoneOrEmail,
             password : data.password
+        }, {
+            withCredentials: true
         }).then(res => {
             dispatch({
                 type : LOGIN_SUCCESS,
@@ -220,7 +232,7 @@ export const userLogin = (data, navigate) => async (dispatch) => {
 export const accessLoggedInUser = (token) => async (dispatch) => {
 
     try{
-
+        
         dispatch({
             type : LOGGEDIN_USER_REQUEST
         });
@@ -229,6 +241,8 @@ export const accessLoggedInUser = (token) => async (dispatch) => {
             headers : {
                 Authorization : `Bearer ${token}`
             },
+        }, {
+            withCredentials: true
         }).then(res => {
 
             dispatch({
@@ -282,7 +296,9 @@ export const userProfileUpdate = (id, data, setShowBio) => async (dispatch) => {
 
     try{
 
-        await axios.put(`http://localhost:8080/api/v1/user/profile-update/${id}`, data).then((res) => {
+        await axios.put(`http://localhost:8080/api/v1/user/profile-update/${id}`, data, {
+            withCredentials: true
+        }).then((res) => {
 
             dispatch({
                 type : USER_PROFILE_UPDATE,
@@ -312,7 +328,9 @@ export const userProfilePhotoUpdate = (id, data, setProfileEditorModal) => async
     
     try{
 
-        await axios.put(`http://localhost:8080/api/v1/user/profile-photo/${id}`, data).then((res) => {
+        await axios.put(`http://localhost:8080/api/v1/user/profile-photo/${id}`, data, {
+            withCredentials: true
+        }).then((res) => {
 
             dispatch({
                 type : USER_PROFILE_PHOTO_UPDATE,
@@ -346,7 +364,9 @@ export const userFeaturedPhotoUpdate = (id, data, setFeaturedPopup) => async (di
 
     try{
 
-        await axios.put(`http://localhost:8080/api/v1/user/featured/${id}`, data).then((res) => {
+        await axios.put(`http://localhost:8080/api/v1/user/featured/${id}`, data, {
+            withCredentials: true
+        }).then((res) => {
 
             dispatch({
                 type : USER_PROFILE_UPDATE,
@@ -381,7 +401,9 @@ export const getAllUserData = (id) => async (dispatch) => {
             type : GET_USERS_REQ
         });
 
-        await axios.get(`http://localhost:8080/api/v1/user/users/${id}`).then((res) => {
+        await axios.get(`http://localhost:8080/api/v1/user/users/${id}`, {
+            withCredentials: true
+        }).then((res) => {
 
             dispatch({
                 type : GET_USERS_SUCCESS,

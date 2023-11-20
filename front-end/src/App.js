@@ -33,9 +33,8 @@ function App() {
       userAccessDispatch(accessLoggedInUser(token));
     }
 
-  }, [userAccessDispatch, token]);
-  
-  if(token){
+  }, [userAccessDispatch]);
+
     return (
       <>
   
@@ -51,15 +50,20 @@ function App() {
   
         <Routes>
           
+          <Route element={<LoggedOutUser/>}>
+            <Route path="/login" element={<Login />} />
+          </Route>
+          
           <Route path="/" element={<Home />} />
-  
-            <Route path="/profile" element={<Profile />} />
+
           <Route path="/" element={<LoggedInUser/>}>
+            <Route path="/profile" element={<Profile />} />
             <Route path="/friends" element={<Friends />} />
             <Route path="/watch" element={<Watch />} />
             <Route path="/about-profile" element={<AboutProfile />} />
           </Route>
-  
+          
+
           <Route path="/find-account" element={<FindAccount />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/change-password" element={<ChangePassword />} />
@@ -68,37 +72,6 @@ function App() {
         </Routes>
       </>
     );
-  }else{
-    return (
-      <>
-  
-        <LoadingBar color='#D82E38' progress={loader} onLoaderFinished={() => loaderDispatch({type : LOADER_END})} />
-        
-        <ToastContainer
-          style={{zIndex:"9999999"}}
-          position="bottom-left"
-          autoClose={3000}
-          newestOnTop={true}
-          closeOnClick
-        />
-  
-        <Routes>
-          
-          <Route path="/" element={<Home />} />
-  
-          <Route element={<LoggedOutUser/>}>
-            <Route path="/login" element={<Login />} />
-          </Route>
-  
-          <Route path="/find-account" element={<FindAccount />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/change-password" element={<ChangePassword />} />
-          <Route path="/activation/:type" element={<Activation />} />
-          
-        </Routes>
-      </>
-    );
-  }
 }
 
 export default App;
