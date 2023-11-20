@@ -49,12 +49,12 @@ function App() {
         />
   
         <Routes>
+
+          <Route path="/" element={<Home />} />
           
           <Route element={<LoggedOutUser/>}>
             <Route path="/login" element={<Login />} />
           </Route>
-          
-          <Route path="/" element={<Home />} />
 
           <Route path="/" element={<LoggedInUser/>}>
             <Route path="/profile" element={<Profile />} />
